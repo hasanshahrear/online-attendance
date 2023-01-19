@@ -14,13 +14,13 @@ const userSchema = new Schema({
         required: true,
         trim: true,
     },
-    email: {
+    phone: {
         type: String,
         required: true,
         unique: true,
         trim: true,
     },
-    phone: {
+    email: {
         type: String,
         required: true,
         unique: true,
@@ -38,9 +38,21 @@ const userSchema = new Schema({
         enum: ["male", "female", "unspecified"],
         default: "unspecified"
     },
-    division: {
+    division_id: {
         type : Schema.Types.ObjectId,
         ref: 'Division',
+    },
+    district_id: {
+        type : Schema.Types.ObjectId,
+        ref: 'District',
+    },
+    sub_district_id: {
+        type : Schema.Types.ObjectId,
+        ref: 'SubDistrict',
+    },
+    union_id: {
+        type : Schema.Types.ObjectId,
+        ref: 'Union',
     },
 }, {timestamps: true})
 

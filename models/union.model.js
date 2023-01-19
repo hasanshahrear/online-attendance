@@ -23,6 +23,7 @@ const unionSchema = new Schema({
         type: String,
         required: true,
         trim: true,
+        unique: true,
     },
     
 }, {timestamps: true})

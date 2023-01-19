@@ -7,7 +7,11 @@ const mongoose = require("mongoose")
 const useSignupRouter = require("./router/user/useSignupRouter")
 const useLoginRouter = require("./router/user/useLoginRouter")
 
-const useTodoRouter = require("./router/useTodoRouter")
+const useAddDivision = require("./router/useAddDivision")
+const useAddDistrict = require("./router/useAddDistrict")
+const useAddSubDistrict = require("./router/useAddSubDistrict")
+const useAddUnion = require("./router/useAddUnion")
+
 const useAddTodoRouter = require("./router/useAddTodoRouter")
 const useDeleteTodoRouter = require("./router/useDeleteTodoRouter")
 const useUpdateTodoRouter = require("./router/useUpdateTodoRouter")
@@ -32,10 +36,14 @@ app.use(express.urlencoded({extended: true}))
 // routing setup
 // login route
 app.use("/", useLoginRouter )
-app.use("/signup", useSignupRouter)
+app.use("/sign-up", useSignupRouter)
 
-// todo route
-app.use("/todos", useTodoRouter)
+// address route
+app.use("/division", useAddDivision)
+app.use("/district", useAddDistrict)
+app.use("/sub-district", useAddSubDistrict)
+app.use("/union", useAddUnion)
+
 app.use("/todo-add", useAddTodoRouter)
 app.use("/todo-delete", useDeleteTodoRouter)
 app.use("/todo-update", useUpdateTodoRouter)

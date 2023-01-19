@@ -1,15 +1,12 @@
-// external imports
-
-
 // internal imports
 const Division = require("../models/division.model")
 
 
-// add todo
+// add division
 async function addDivision(req, res){
     try {
+        console.log(req.body)
         const division = new Division({
-            user: req.user.id,
             ...req.body,
         });       
         await division.save()
@@ -19,6 +16,7 @@ async function addDivision(req, res){
     } catch (error) {
         res.status(500).json({
             message: "Division did not added"
+            // message: error.message
         })
     }
 }
