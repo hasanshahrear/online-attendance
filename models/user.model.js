@@ -37,7 +37,11 @@ const userSchema = new Schema({
         type: String,
         enum: ["male", "female", "unspecified"],
         default: "unspecified"
-    }
+    },
+    division: {
+        type : Schema.Types.ObjectId,
+        ref: 'Division',
+    },
 }, {timestamps: true})
 
 const User = mongoose.model("User", userSchema)
