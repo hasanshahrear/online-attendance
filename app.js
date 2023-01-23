@@ -36,7 +36,7 @@ app.use(express.urlencoded({extended: true}))
 
 // routing setup
 // login route
-app.use("/", useLoginRouter )
+app.use("/login", useLoginRouter )
 app.use("/sign-up", useSignupRouter)
 
 // address route
