@@ -4,6 +4,7 @@ specifiers:
   bcrypt: ^5.1.0
   dotenv: ^16.0.3
   express: ^4.18.2
+  geolib: ^3.3.3
   jsonwebtoken: ^8.5.1
   mongoose: ^6.7.2
   nodemon: ^2.0.20
@@ -12,6 +13,7 @@ dependencies:
   bcrypt: 5.1.0
   dotenv: 16.0.3
   express: 4.18.2
+  geolib: 3.3.3
   jsonwebtoken: 8.5.1
   mongoose: 6.7.2
   nodemon: 2.0.20
@@ -1256,6 +1258,10 @@ packages:
       string-width: 4.2.3
       strip-ansi: 6.0.1
       wide-align: 1.1.5
+    dev: false
+
+  /geolib/3.3.3:
+    resolution: {integrity: sha512-YO704pzdB/8QQekQuDmFD5uv5RAwAf4rOUPdcMhdEOz+HoPWD0sC7Qqdwb+LAvwIjXVRawx0QgZlocKYh8PFOQ==}
     dev: false
 
   /get-intrinsic/1.1.3:

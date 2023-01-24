@@ -2,10 +2,12 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const mongoose = require("mongoose")
+const geolib = require('geolib');
 
 // internal imports
 const useSignupRouter = require("./router/user/useSignupRouter")
 const useLoginRouter = require("./router/user/useLoginRouter")
+const useUpdateLocation = require("./router/user/useUpdateLocation")
 
 const useAddDivision = require("./router/useAddDivision")
 const useAddDistrict = require("./router/useAddDistrict")
@@ -38,6 +40,7 @@ app.use(express.urlencoded({extended: true}))
 // login route
 app.use("/login", useLoginRouter )
 app.use("/sign-up", useSignupRouter)
+app.use("/update-location", useUpdateLocation)
 
 // address route
 app.use("/division", useAddDivision)
@@ -60,6 +63,16 @@ app.delete("/todo-remove", (req, res, next)=>{
 app.patch("/todo-update", (req, res, next)=>{
     res.send("Your Updating")
 })
+
+
+
+const location1 = { latitude: 51.5103, longitude: 7.49347 };
+const location2 = { latitude: 51.5081, longitude: 7.4934 };
+
+const distance = geolib.getDistance(location1, location2);
+console.log(distance); // Output: 286
+console.log(distance/1000 + 'km'); // Output : 0.286km
+
 
 
 

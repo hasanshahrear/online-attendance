@@ -59,9 +59,23 @@ async function login(req, res){
     }
 }
 
+// update location
+async function updateLocation(req, res){
+    try{
+        await User.findOneAndUpdate(req.body._id, {office_location: req.body.office_location})
+        res.status(200).json({
+            message: "Location update successfully"
+        })
+    }catch(error){
+        res.status(500).json({
+            message: "Location didn't update"
+        })
+    }
+}
 
 
 module.exports = {
     signup,
-    login
+    login,
+    updateLocation,
 }

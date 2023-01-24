@@ -54,6 +54,9 @@ const userSchema = new Schema({
         type : Schema.Types.ObjectId,
         ref: 'Union',
     },
+    office_location:{
+        type: Object,
+    }
 }, {timestamps: true})
 
 const User = mongoose.model("User", userSchema)
