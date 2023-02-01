@@ -8,6 +8,7 @@ const geolib = require('geolib');
 const useSignupRouter = require("./router/user/useSignupRouter")
 const useLoginRouter = require("./router/user/useLoginRouter")
 const useUpdateLocation = require("./router/user/useUpdateLocation")
+const useGetLocation = require("./router/user/useGetLocation")
 
 const useAddDivision = require("./router/useAddDivision")
 const useAddDistrict = require("./router/useAddDistrict")
@@ -41,6 +42,7 @@ app.use(express.urlencoded({extended: true}))
 app.use("/login", useLoginRouter )
 app.use("/sign-up", useSignupRouter)
 app.use("/update-location", useUpdateLocation)
+app.use("/get-location", useGetLocation)
 
 // address route
 app.use("/division", useAddDivision)

@@ -62,13 +62,41 @@ async function login(req, res){
 // update location
 async function updateLocation(req, res){
     try{
-        await User.findOneAndUpdate(req.body._id, {office_location: req.body.office_location})
-        res.status(200).json({
-            message: "Location update successfully"
-        })
+        let isLocationSet = await User.findOne( req.body._id )
+
+        if(isLocationSet.location === false){
+            await User.findOneAndUpdate(req.body._id, {office_location: req.body.office_location})
+            await User.findOneAndUpdate(req.body._id, {location: true})
+            res.status(200).json({
+                message: "Location update successfully"
+            })
+        }else{
+            res.status(200).json({
+                message: "Location Already Added"
+            })
+        }
+        
+        console.log(isLocationSet.location)
     }catch(error){
         res.status(500).json({
-            message: "Location didn't update"
+            message: error.message
+        })
+    }
+}
+
+async function getLocation(req, res){
+    try{
+        let isLocationSet = await User.findOne( req.body._id )
+        res.status(200).json({
+            success: true,
+            message: "Request successfully",
+            data: isLocationSet.office_location
+        })
+        console.log(isLocationSet.location)
+    }catch(error){
+        res.status(500).json({
+            success: false,
+            message: error.message
         })
     }
 }
@@ -78,4 +106,5 @@ module.exports = {
     signup,
     login,
     updateLocation,
+    getLocation,
 }

@@ -54,8 +54,13 @@ const userSchema = new Schema({
         type : Schema.Types.ObjectId,
         ref: 'Union',
     },
+    location: {
+        type: Boolean,
+        default: false,
+    },
     office_location:{
         type: Object,
+        default: null,
     }
 }, {timestamps: true})
 
