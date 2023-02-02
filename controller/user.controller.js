@@ -89,6 +89,7 @@ async function getLocation(req, res){
         let isLocationSet = await User.findOne( req.body._id )
         res.status(200).json({
             success: true,
+            statusCode: 200,
             message: "Request successfully",
             data: isLocationSet.office_location
         })
