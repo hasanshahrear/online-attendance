@@ -14,7 +14,8 @@ const useAddDivision = require("./router/useAddDivision")
 const useAddDistrict = require("./router/useAddDistrict")
 const useAddSubDistrict = require("./router/useAddSubDistrict")
 const useAddUnion = require("./router/useAddUnion")
-const useAttendanceRouter = require("./router/useAttendanceRouter")
+const useCheckInRouter = require("./router/useCheckInRouter")
+const useCheckOutRouter = require("./router/useCheckOutRouter")
 
 const useAddTodoRouter = require("./router/useAddTodoRouter")
 const useDeleteTodoRouter = require("./router/useDeleteTodoRouter")
@@ -51,7 +52,8 @@ app.use("/sub-district", useAddSubDistrict)
 app.use("/union", useAddUnion)
 
 // attendance route
-app.use("/attendance", useAttendanceRouter)
+app.use("/check-in", useCheckInRouter)
+app.use("/check-out", useCheckOutRouter)
 
 
 app.use("/todo-add", useAddTodoRouter)

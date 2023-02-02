@@ -9,16 +9,16 @@ const attendanceSchema = new Schema({
         required: true,
         ref: 'User',
     },
-    date : {
-        type: String,
-        required: true,
-        trim: true,
+    date: { 
+        type: String, 
+        required: true, 
     },
-    time : {
-        type: String,
-        required: true,
-        trim: true,
-    },
+    check_in: [{
+        time: { type: String }
+      }],
+    check_out: [{
+        time: { type: String }
+      }],
     status: {
         type: String,
         required: true,
