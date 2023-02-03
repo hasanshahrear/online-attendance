@@ -12,7 +12,7 @@ async function checkIn(req, res){
         });
 
         if (existingRecord) {
-            existingRecord.check_in.push({ time: time });
+            existingRecord.check_in.push({ time: time, distance: req.body.distance });
             await existingRecord.save();
             res.status(200).json({
                 message: "Present Update successfully"
@@ -21,7 +21,10 @@ async function checkIn(req, res){
             const attendance = new Attendance({
                 "user_id": req.user.id,
                 "date": date,
-                "check_in": {time:time},
+                "check_in": {
+                    time:time,
+                    distance: req.body.distance
+                },
                 "status": req.body.status,
                 "remarks" : req.body.remarks,
             });       
@@ -47,7 +50,7 @@ async function checkOut(req, res){
         });
 
         if (existingRecord) {
-            existingRecord.check_out.push({ time: time });
+            existingRecord.check_out.push({ time: time, distance: req.body.distance });
             await existingRecord.save();
             res.status(200).json({
                 message: "Check Out successfully"

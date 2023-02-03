@@ -30,6 +30,10 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    designation : {
+        type: String,
+        trim: true,
+    },
     avatar: {
         type: String 
     },

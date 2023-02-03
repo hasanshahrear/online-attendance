@@ -14,10 +14,12 @@ const attendanceSchema = new Schema({
         required: true, 
     },
     check_in: [{
-        time: { type: String }
+        time: { type: String },
+        distance: {type: String}
       }],
     check_out: [{
-        time: { type: String }
+        time: { type: String },
+        distance: {type: String}
       }],
     status: {
         type: String,

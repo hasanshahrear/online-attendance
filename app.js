@@ -70,8 +70,8 @@ app.patch("/todo-update", (req, res, next)=>{
 
 
 
-const location1 = { latitude: 51.5103, longitude: 7.49347 };
-const location2 = { latitude: 51.5081, longitude: 7.4934 };
+const location1 = { latitude: 37.421991, longitude: -122.0839999 };
+const location2 = { latitude: 37.4219991, longitude: -122.0840011 };
 
 const distance = geolib.getDistance(location1, location2);
 console.log(distance); // Output: 286

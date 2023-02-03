@@ -31,6 +31,9 @@ async function signup(req, res){
 async function login(req, res){
     try {
         const user = await User.findOne({phone : req.body.phone})
+        const isLocationSet = await User.findOne( {phone : req.body.phone}, 'location' )
+       
+        console.log(isLocationSet.location);
         
         if(user && user._id){
             isValidPassword = await bcrypt.compare(req.body.password, user.password)
@@ -46,7 +49,8 @@ async function login(req, res){
                 res.status(200).json({
                     success: true,
                     message: "Login successful",
-                    token
+                    token,
+                    location: isLocationSet.location
                 })
             }
         }
@@ -62,21 +66,29 @@ async function login(req, res){
 // update location
 async function updateLocation(req, res){
     try{
-        let isLocationSet = await User.findOne( req.body._id )
+        const isLocationSet = await User.findOne( {_id: req.user.id} )
 
         if(isLocationSet.location === false){
-            await User.findOneAndUpdate(req.body._id, {office_location: req.body.office_location})
-            await User.findOneAndUpdate(req.body._id, {location: true})
+            await User.findOneAndUpdate(
+                {_id: req.user.id}, 
+                {
+                    office_location: {
+                        "longitude" :    Number(req.body.longitude),
+                        "latitude" : Number(req.body.latitude),
+                    }
+                })
+
+            await User.findOneAndUpdate({_id: req.user.id}, {location: true})
+
             res.status(200).json({
                 message: "Location update successfully"
             })
         }else{
-            res.status(200).json({
+            res.status(500).json({
                 message: "Location Already Added"
             })
         }
         
-        console.log(isLocationSet.location)
     }catch(error){
         res.status(500).json({
             message: error.message
@@ -85,15 +97,17 @@ async function updateLocation(req, res){
 }
 
 async function getLocation(req, res){
+
     try{
-        let isLocationSet = await User.findOne( req.body._id )
+        let isLocationSet = await User.findOne( {_id: req.user.id} )
+        console.log(isLocationSet)
+
         res.status(200).json({
             success: true,
             statusCode: 200,
             message: "Request successfully",
             data: isLocationSet.office_location
         })
-        console.log(isLocationSet.location)
     }catch(error){
         res.status(500).json({
             success: false,
