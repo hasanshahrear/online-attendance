@@ -3,6 +3,7 @@ const express = require('express')
 const dotenv = require('dotenv')
 const mongoose = require("mongoose")
 const geolib = require('geolib');
+const helmet = require('helmet');
 
 // internal imports
 const useSignupRouter = require("./router/user/useSignupRouter")
@@ -19,7 +20,8 @@ const useCheckOutRouter = require("./router/useCheckOutRouter")
 
 const useAddTodoRouter = require("./router/useAddTodoRouter")
 const useDeleteTodoRouter = require("./router/useDeleteTodoRouter")
-const useUpdateTodoRouter = require("./router/useUpdateTodoRouter")
+const useUpdateTodoRouter = require("./router/useUpdateTodoRouter");
+const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
 
 // app
 const app = express()
@@ -34,6 +36,7 @@ mongoose.connect(process.env.MONGOOSE_CONNECTION_STRING, {
 
 
 // request parse
+app.use(helmet());
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
@@ -79,7 +82,8 @@ console.log(distance/1000 + 'km'); // Output : 0.286km
 
 
 
-
+app.use(notFound);
+app.use(errorHandler);
 // start server 
 app.listen(process.env.PORT, ()=>{
     console.log(`Server Running at ${process.env.PORT}`)
