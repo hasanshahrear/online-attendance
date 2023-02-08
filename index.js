@@ -42,6 +42,12 @@ app.use(express.urlencoded({extended: true}))
 
 
 // routing setup
+app.use("/", (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "Welcome to Online Attendance",
+    })
+} )
 // login route
 app.use("/login", useLoginRouter )
 app.use("/sign-up", useSignupRouter)
