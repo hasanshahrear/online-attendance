@@ -32,8 +32,6 @@ async function login(req, res){
     try {
         const user = await User.findOne({phone : req.body.phone})
         const isLocationSet = await User.findOne( {phone : req.body.phone}, 'location' )
-       
-        console.log(isLocationSet.location);
         
         if(user && user._id){
             isValidPassword = await bcrypt.compare(req.body.password, user.password)
@@ -100,7 +98,7 @@ async function getLocation(req, res){
 
     try{
         let isLocationSet = await User.findOne( {_id: req.user.id} )
-        console.log(isLocationSet)
+        console.log("get-location-called")
 
         res.status(200).json({
             success: true,

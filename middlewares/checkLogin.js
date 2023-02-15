@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken")
 // auth guard
 const checkLogin = async (req, res, next)=>{
     try {
-        console.log(req.user)
         const token = await req.headers.authorization.split(" ")[1]
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         // if req.user is equal to decoded
