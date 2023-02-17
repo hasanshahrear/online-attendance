@@ -34,6 +34,10 @@ const userSchema = new Schema({
         type: String,
         trim: true,
     },
+    office_address : {
+        type: String,
+        trim: true,
+    },
     avatar: {
         type: String 
     },

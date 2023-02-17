@@ -10,6 +10,7 @@ const useSignupRouter = require("./router/user/useSignupRouter")
 const useLoginRouter = require("./router/user/useLoginRouter")
 const useUpdateLocation = require("./router/user/useUpdateLocation")
 const useGetLocation = require("./router/user/useGetLocation")
+const useGetEmployeeReport = require("./router/user/useGetEmployeeReport")
 
 const useAddDivision = require("./router/useAddDivision")
 const useAddDistrict = require("./router/useAddDistrict")
@@ -58,6 +59,8 @@ app.use("/union", useAddUnion)
 // attendance route
 app.use("/check-in", useCheckInRouter)
 app.use("/check-out", useCheckOutRouter)
+app.use("/employee-report", useGetEmployeeReport)
+
 
 
 app.use("/todo-add", useAddTodoRouter)
