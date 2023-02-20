@@ -16,7 +16,7 @@ async function addSubDistrict(req, res){
                     message: err.message
                 })
             } else {
-                try{
+                // try{
                     const subDistrict = new SubDistrict({
                         "district_id": result[0]._id.toString(),
                         ...req.body,
@@ -27,12 +27,12 @@ async function addSubDistrict(req, res){
                         success: true,
                         message: "SubDistrict added successfully"
                     })
-                }catch (error) {
-                    res.status(HTTP_SERVER_ERROR).json({
-                        success: false,
-                        message: error.message
-                    })
-                }
+                // }catch (error) {
+                //     res.status(HTTP_SERVER_ERROR).json({
+                //         success: false,
+                //         message: error.message
+                //     })
+                // }
             }})
             
     } catch (error) {
