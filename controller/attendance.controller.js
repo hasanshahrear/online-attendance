@@ -19,6 +19,7 @@ async function checkIn(req, res){
             existingRecord.check_in.push({ time: time, distance: req.body.distance });
             await existingRecord.save();
             res.status(200).json({
+                success: true,
                 message: "Present Update successfully"
             })
           } else {
@@ -34,6 +35,7 @@ async function checkIn(req, res){
             });       
             await attendance.save()
             res.status(HTTP_OK).json({
+                success: true,
                 message: "Present successfully"
             })
           }
@@ -57,10 +59,12 @@ async function checkOut(req, res){
             existingRecord.check_out.push({ time: time, distance: req.body.distance });
             await existingRecord.save();
             res.status(HTTP_OK).json({
+                success: true,
                 message: "Check Out successfully"
             })
           } else {
             res.status(HTTP_SERVER_ERROR).json({
+                success: false,
                 message: "You doesn't check in today"
             })
           }

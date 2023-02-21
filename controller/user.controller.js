@@ -34,8 +34,8 @@ async function signup(req, res){
 async function login(req, res){
     try {
         const user = await User.findOne({phone : req.body.phone})
-        const {location, first_name, last_name, phone, designation, office_address} = user
         if(user && user._id){
+            const {location, first_name, last_name, phone, designation, office_address} = user
             isPasswordValid  = await bcrypt.compare(req.body.password, user.password)
             if(isPasswordValid ){
                 const userObject = {
@@ -59,7 +59,17 @@ async function login(req, res){
                         office_address
                     }
                 })
+            }else{
+                res.status(HTTP_SERVER_ERROR).json({
+                    success: false,
+                    message: "Not a valid user"
+                })
             }
+        }else{
+            res.status(HTTP_SERVER_ERROR).json({
+                success: false,
+                message: "Not a valid user"
+            })
         }
         
     } catch (error) {

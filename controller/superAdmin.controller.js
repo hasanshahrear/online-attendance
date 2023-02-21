@@ -52,7 +52,17 @@ async function adminLogin(req, res){
                     message: "Login successful",
                     token,
                 })
+            }else{
+                res.status(HTTP_SERVER_ERROR).json({
+                    success: false,
+                    message: "Not a valid user"
+                })
             }
+        }else{
+            res.status(HTTP_SERVER_ERROR).json({
+                success: false,
+                message: "Not a valid user"
+            })
         }
         
     } catch (error) {
