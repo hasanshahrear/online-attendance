@@ -1,6 +1,9 @@
 // internal imports
 const District = require("../models/district.model")
 
+// constants
+const HTTP_OK = 200;
+const HTTP_SERVER_ERROR = 500;
 // add district
 async function addDistrict(req, res){
     try {
@@ -8,12 +11,39 @@ async function addDistrict(req, res){
             ...req.body,
         });       
         await district.save()
-        res.status(200).json({
+        res.status(HTTP_OK).json({
+            success: true,
             message: "District added successfully"
         })
     } catch (error) {
-        res.status(500).json({
-            message: "District did not added"
+        res.status(HTTP_SERVER_ERROR).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+async function getAllDistrict(req, res){
+    try {
+        District.find({}, function(error, data){
+            if(error){
+                res.status(HTTP_SERVER_ERROR).json({
+                    success: false,
+                    message: error.message
+                })
+            }else{
+                res.status(HTTP_OK).json({
+                    success: true,
+                    message: "Request successfully",
+                    data,
+                })
+            }
+        })
+        
+    } catch (error) {
+        res.status(HTTP_SERVER_ERROR).json({
+            success: false,
+            message: error.message
         })
     }
 }
@@ -21,5 +51,6 @@ async function addDistrict(req, res){
 
 
 module.exports = {
-    addDistrict
+    addDistrict,
+    getAllDistrict
 }

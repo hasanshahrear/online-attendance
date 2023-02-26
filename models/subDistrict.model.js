@@ -15,6 +15,11 @@ const subDistrictSchema = new Schema({
         trim: true,
         unique: true,
     },
+    status: {
+        type: Boolean,
+        required: true,
+        default: true,
+    }
     
 }, {timestamps: true})
 

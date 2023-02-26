@@ -4,11 +4,6 @@ const mongoose = require("mongoose")
 const {Schema} = mongoose
 
 const unionSchema = new Schema({
-    division_id: {
-        type : Schema.Types.ObjectId,
-        ref: 'Division',
-        required: true,
-    },
     district_id : {
         type : Schema.Types.ObjectId,
         ref: 'District',

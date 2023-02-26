@@ -10,6 +10,11 @@ const districtSchema = new Schema({
         trim: true,
         unique: true,
     },
+    status: {
+        type: Boolean,
+        required: true,
+        default: false,
+    }
     
 }, {timestamps: true})
 
