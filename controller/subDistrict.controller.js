@@ -31,20 +31,39 @@ async function addSubDistrict(req, res){
 async function getAllSubDistrict(req, res){
     try {
         console.log(req.query.district_id)
-        SubDistrict.find({district_id:req.query.district_id}, function(error, data){
-            if(error){
-                res.status(HTTP_SERVER_ERROR).json({
-                    success: false,
-                    message: error.message
-                })
-            }else{
-                res.status(HTTP_OK).json({
-                    success: true,
-                    message: "Request successfully",
-                    data,
-                })
-            }
-        })
+
+        if(req.query.district_id === "-1"){
+            SubDistrict.find({}, function(error, data){
+                if(error){
+                    res.status(HTTP_SERVER_ERROR).json({
+                        success: false,
+                        message: error.message
+                    })
+                }else{
+                    res.status(HTTP_OK).json({
+                        success: true,
+                        message: "Request successfully",
+                        data,
+                    })
+                }
+            })
+        }
+        else{
+            SubDistrict.find({district_id:req.query.district_id}, function(error, data){
+                if(error){
+                    res.status(HTTP_SERVER_ERROR).json({
+                        success: false,
+                        message: error.message
+                    })
+                }else{
+                    res.status(HTTP_OK).json({
+                        success: true,
+                        message: "Request successfully",
+                        data,
+                    })
+                }
+            })
+        }
         
     } catch (error) {
         res.status(HTTP_SERVER_ERROR).json({
