@@ -46,10 +46,6 @@ const userSchema = new Schema({
         enum: ["male", "female", "unspecified"],
         default: "unspecified"
     },
-    division_id: {
-        type : Schema.Types.ObjectId,
-        ref: 'Division',
-    },
     district_id: {
         type : Schema.Types.ObjectId,
         ref: 'District',

@@ -42,7 +42,10 @@ const checkAdminLogin = async (req, res, next)=>{
             })
         }
     } catch (error) {
-        console.log(error.message)
+        res.status(HTTP_SERVER_ERROR).json({
+            success: false,
+            message: "No Auth Found",
+        })
     }
 }
 
