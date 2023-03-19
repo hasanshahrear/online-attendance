@@ -21,6 +21,7 @@ const useAdminLoginRouter = require("./router/admin/useAdminLoginRouter")
 const useAddDistrict = require("./router/useAddDistrict")
 const useAddSubDistrict = require("./router/useAddSubDistrict")
 const useAddUnion = require("./router/useAddUnion")
+const useAddDesignation = require("./router/useAddDesignation")
 
 
 
@@ -65,6 +66,9 @@ app.use("/api/admin-login", useAdminLoginRouter)
 app.use("/api/district", useAddDistrict)
 app.use("/api/sub-district", useAddSubDistrict)
 app.use("/api/union", useAddUnion)
+
+// designation route
+app.use("/api/designation", useAddDesignation)
 
 
 
