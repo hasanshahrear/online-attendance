@@ -32,7 +32,6 @@ async function adminSignup(req, res){
 
 // login user
 async function adminLogin(req, res){
-    console.log(req.body.phone)
     try {
         const user = await SuperAdmin.findOne({phone : req.body.phone})
         

@@ -1,20 +1,20 @@
 // internal imports
-const Designation = require("../models/designation.model")
+const Gender = require("../models/gender.model")
 
 // constants
 const HTTP_OK = 200;
 const HTTP_SERVER_ERROR = 500;
 
 // add designation
-async function addDesignation(req, res){
+async function addGender(req, res){
     try {
-        const designation = new Designation({
+        const designation = new Gender({
             ...req.body,
         });       
         await designation.save()
         res.status(HTTP_OK).json({
             success: true,
-            message: "Designation added successfully"
+            message: "Gender added successfully"
         })
     } catch (error) {
         res.status(HTTP_SERVER_ERROR).json({
@@ -24,9 +24,9 @@ async function addDesignation(req, res){
     }
 }
 
-async function getAllDesignation(req, res){
+async function getAllGender(req, res){
     try {
-        Designation.find({}, function(error, data){
+        Gender.find({}, function(error, data){
             if(error){
                 res.status(HTTP_SERVER_ERROR).json({
                     success: false,
@@ -52,6 +52,6 @@ async function getAllDesignation(req, res){
 
 
 module.exports = {
-    addDesignation,
-    getAllDesignation
+    getAllGender,
+    addGender,
 }

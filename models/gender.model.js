@@ -3,8 +3,8 @@ const mongoose = require("mongoose")
 
 const {Schema} = mongoose
 
-const designationSchema = new Schema({
-    designation_name : {
+const genderSchema = new Schema({
+    gender_name : {
         type: String,
         required: true,
         trim: true,
@@ -18,6 +18,6 @@ const designationSchema = new Schema({
     
 }, {timestamps: true})
 
-const Designation = mongoose.model("Designation", designationSchema)
+const Gender = mongoose.model("Gender", genderSchema)
 
-module.exports = Designation
+module.exports = Gender

@@ -22,6 +22,7 @@ const useAddDistrict = require("./router/useAddDistrict")
 const useAddSubDistrict = require("./router/useAddSubDistrict")
 const useAddUnion = require("./router/useAddUnion")
 const useAddDesignation = require("./router/useAddDesignation")
+const useAddGender = require("./router/useAddGender")
 
 
 
@@ -69,6 +70,7 @@ app.use("/api/union", useAddUnion)
 
 // designation route
 app.use("/api/designation", useAddDesignation)
+app.use("/api/gender", useAddGender)
 
 
 
