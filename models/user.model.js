@@ -43,8 +43,8 @@ const userSchema = new Schema({
     },
     gender: {
         type: String,
-        enum: ["male", "female", "unspecified"],
-        default: "unspecified"
+        enum: ["male", "female", "other"],
+        default: "other"
     },
     district_id: {
         type : Schema.Types.ObjectId,
