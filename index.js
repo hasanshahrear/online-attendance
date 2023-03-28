@@ -23,6 +23,7 @@ const useAddSubDistrict = require("./router/useAddSubDistrict")
 const useAddUnion = require("./router/useAddUnion")
 const useAddDesignation = require("./router/useAddDesignation")
 const useAddGender = require("./router/useAddGender")
+const useWeeklyHolidays = require("./router/useAddWeeklyHolidays")
 
 
 
@@ -50,7 +51,7 @@ app.use(express.urlencoded({extended: true}))
 
 // login route
 app.use("/login", useLoginRouter )
-app.use("/sign-up", useSignupRouter)
+app.use("/api/sign-up", useSignupRouter)
 app.use("/update-location", useUpdateLocation)
 app.use("/get-location", useGetLocation)
 
@@ -71,6 +72,9 @@ app.use("/api/union", useAddUnion)
 // designation route
 app.use("/api/designation", useAddDesignation)
 app.use("/api/gender", useAddGender)
+
+// holidays route
+app.use("/api/weekly-holidays", useWeeklyHolidays)
 
 
 

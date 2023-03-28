@@ -11,6 +11,7 @@ const HTTP_SERVER_ERROR = 500;
 
 // signup new user
 async function signup(req, res){
+    console.log(req.body)
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
     const user = new User({ ...req.body, password: hashedPassword})
 

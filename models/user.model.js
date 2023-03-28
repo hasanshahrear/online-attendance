@@ -25,6 +25,13 @@ const userSchema = new Schema({
         required: true,
         unique: true,
         trim: true,
+        validate: {
+            validator: function(email) {
+              const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+              return emailRegex.test(email);
+            },
+            message: props => `${props.value} is not a valid email address!`
+          }
     },
     password: {
         type: String,
