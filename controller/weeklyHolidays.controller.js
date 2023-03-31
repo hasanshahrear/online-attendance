@@ -54,9 +54,45 @@ async function getAllWeeklyHolidays(req, res){
     }
 }
 
+async function activeHoliday(req, res){
+    try{
+        WeeklyHolidays.find({_id:req.body.id}, async function(error, data)  {
+            if(error){
+                res.status(HTTP_SERVER_ERROR).json({
+                    success: false,
+                    message: error.message
+                })
+            }else {
+                const {isHoliday} = data[0]
+                if(isHoliday === true){
+                    await WeeklyHolidays.findOneAndUpdate({_id: req.body.id}, {isHoliday: false})
+                    res.status(HTTP_OK).json({
+                        success: true,
+                        message: "Holiday updated",
+                    })
+                }else{
+                    await  WeeklyHolidays.findOneAndUpdate({_id: req.body.id}, {isHoliday: true})
+                    res.status(HTTP_OK).json({
+                        success: true,
+                        message: "Holiday updated",
+                    })
+                }
+
+            }
+        })
+
+    }catch (error) {
+        res.status(HTTP_SERVER_ERROR).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
 
 
 module.exports = {
     addWeeklyHolidays,
-    getAllWeeklyHolidays
+    getAllWeeklyHolidays,
+    activeHoliday
 }
