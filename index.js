@@ -25,6 +25,7 @@ const useAddDesignation = require("./router/useAddDesignation")
 const useAddGender = require("./router/useAddGender")
 const useWeeklyHolidays = require("./router/useAddWeeklyHolidays")
 const useActiveWeeklyHoliday = require("./router/useActiveWeeklyHolidays")
+const useHolidays = require("./router/useAddHolidays")
 
 
 
@@ -77,6 +78,7 @@ app.use("/api/gender", useAddGender)
 // holidays route
 app.use("/api/weekly-holidays", useWeeklyHolidays)
 app.use("/api/active-weekly-holiday", useActiveWeeklyHoliday)
+app.use("/api/holidays", useHolidays)
 
 
 

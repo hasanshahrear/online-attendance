@@ -4,21 +4,12 @@ const mongoose = require("mongoose")
 const {Schema} = mongoose
 
 const holidaysSchema = new Schema({
-    year : {
-        type: Number,
-        trim: true,
-    },
-    month : [
-        {
-            name: {
-                type: Number,
-                unique: true
-            },
-            holiday: {
-                type: Array
-            }
-        }
-    ]
+    holyDay : {
+        type: Date,
+        unique: true,
+        required: true,
+    }
+    
 }, {timestamps: true})
 
 const Holidays = mongoose.model("Holidays", holidaysSchema)
