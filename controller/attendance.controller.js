@@ -20,8 +20,6 @@ cron.schedule("0 0 * * *", async () => {
       });
       await attendance.save();
     }
-
-    console.log(`Attendance marked for ${users.length} users`);
   });
 
 
