@@ -33,6 +33,7 @@ async function signup(req, res){
 
 // login user
 async function login(req, res){
+    console.log(req.body)
     try {
         const user = await User.findOne({phone : req.body.phone})
         if(user && user._id){

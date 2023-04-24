@@ -11,7 +11,6 @@ const useSignupRouter = require("./router/user/useSignupRouter")
 const useLoginRouter = require("./router/user/useLoginRouter")
 const useUpdateLocation = require("./router/user/useUpdateLocation")
 const useGetLocation = require("./router/user/useGetLocation")
-const useGetEmployeeReport = require("./router/user/useGetEmployeeReport")
 const useCheckInRouter = require("./router/useCheckInRouter")
 const useCheckOutRouter = require("./router/useCheckOutRouter")
 
@@ -27,7 +26,9 @@ const useWeeklyHolidays = require("./router/useAddWeeklyHolidays")
 const useActiveWeeklyHoliday = require("./router/useActiveWeeklyHolidays")
 const useHolidays = require("./router/useAddHolidays")
 
-
+// reports
+const useGetEmployeeReport = require("./router/report/useGetEmployeeReport")
+const useGetAllReport = require("./router/report/useGetAllReport")
 
 const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
 
@@ -52,15 +53,15 @@ app.use(express.urlencoded({extended: true}))
 // routing setup
 
 // login route
-app.use("/login", useLoginRouter )
+app.use("/api/login", useLoginRouter )
 app.use("/api/sign-up", useSignupRouter)
-app.use("/update-location", useUpdateLocation)
-app.use("/get-location", useGetLocation)
+app.use("/api/update-location", useUpdateLocation)
+app.use("/api/get-location", useGetLocation)
 
 // attendance route
-app.use("/check-in", useCheckInRouter)
-app.use("/check-out", useCheckOutRouter)
-app.use("/employee-report", useGetEmployeeReport)
+app.use("/api/check-in", useCheckInRouter)
+app.use("/api/check-out", useCheckOutRouter)
+app.use("/api/employee-report", useGetEmployeeReport)
 
 // admin 
 app.use("/api/admin-sign-up", useAdminSignupRouter)
@@ -79,6 +80,9 @@ app.use("/api/gender", useAddGender)
 app.use("/api/weekly-holidays", useWeeklyHolidays)
 app.use("/api/active-weekly-holiday", useActiveWeeklyHoliday)
 app.use("/api/holidays", useHolidays)
+
+// reports
+app.use("/api/get-all-report", useGetAllReport)
 
 
 

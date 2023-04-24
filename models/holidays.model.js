@@ -8,8 +8,11 @@ const holidaysSchema = new Schema({
         type: Date,
         unique: true,
         required: true,
+    },
+    remarks : {
+        type: String,
+        required: true,
     }
-    
 }, {timestamps: true})
 
 const Holidays = mongoose.model("Holidays", holidaysSchema)

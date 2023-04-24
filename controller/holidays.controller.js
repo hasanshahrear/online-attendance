@@ -7,6 +7,7 @@ const HTTP_SERVER_ERROR = 500;
 
 // add weekly holidays
 async function addHoliday(req, res){
+    console.log(req.body)
     try {
         const existingRecord = await Holidays.findOne({
             holyDay : new Date(req.body.holyDay),
@@ -20,6 +21,7 @@ async function addHoliday(req, res){
         }
         const holidays = new Holidays({
             holyDay : new Date(req.body.holyDay),
+            remarks : req.body.remarks,
         });  
         await holidays.save()
 

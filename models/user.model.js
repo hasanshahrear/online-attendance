@@ -38,8 +38,8 @@ const userSchema = new Schema({
         required: true,
     },
     designation : {
-        type: String,
-        trim: true,
+        type : String,
+        required: true,
     },
     office_address : {
         type: String,
@@ -53,17 +53,17 @@ const userSchema = new Schema({
         enum: ["male", "female", "other"],
         default: "other"
     },
-    district_id: {
-        type : Schema.Types.ObjectId,
-        ref: 'District',
+    district: {
+        type : String,
+        required: true,
     },
-    sub_district_id: {
-        type : Schema.Types.ObjectId,
-        ref: 'SubDistrict',
+    upazila: {
+        type : String,
+        required: true,
     },
-    union_id: {
-        type : Schema.Types.ObjectId,
-        ref: 'Union',
+    union: {
+        type : String,
+        required: true,
     },
     location: {
         type: Boolean,
