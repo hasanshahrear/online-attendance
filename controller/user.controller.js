@@ -37,12 +37,15 @@ async function login(req, res){
     try {
         const user = await User.findOne({phone : req.body.phone})
         if(user && user._id){
-            const {location, first_name, last_name, phone, designation, office_address} = user
+            const {location, first_name, last_name, phone, designation, office_address, district, upazila, union} = user
             isPasswordValid  = await bcrypt.compare(req.body.password, user.password)
             if(isPasswordValid ){
                 const userObject = {
                     phone: user.phone,
                     id: user._id,
+                    district,
+                    upazila,
+                    union
                 }
                 // generate token
                 const token = jwt.sign(userObject, process.env.JWT_SECRET, {

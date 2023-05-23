@@ -4,6 +4,7 @@ const dotenv = require('dotenv')
 const mongoose = require("mongoose")
 const geolib = require('geolib');
 const helmet = require('helmet');
+const cron = require("node-cron");
 
 // internal imports
 // employee 
@@ -31,6 +32,7 @@ const useGetEmployeeReport = require("./router/report/useGetEmployeeReport")
 const useGetAllReport = require("./router/report/useGetAllReport")
 
 const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
+const { useCheckHoliday } = require('./controller/isHolidayCheck');
 
 // app
 const app = express()
@@ -82,11 +84,7 @@ app.use("/api/active-weekly-holiday", useActiveWeeklyHoliday)
 app.use("/api/holidays", useHolidays)
 
 // reports
-app.use("/api/get-all-report", useGetAllReport)
-
-
-
-
+app.use("/api/report", useGetAllReport)
 
 
 app.use(notFound);

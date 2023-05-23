@@ -22,11 +22,26 @@ const attendanceSchema = new Schema({
         distance: {type: String}
       }],
     status: {
-        type: String,
-        required: true,
-        trim: true,
+        type: Boolean,
+        default: false,
     },
     remarks: {
+        type: String,
+        trim: true,
+    },
+    leave: {
+        type: Boolean,
+        default: false,
+    },
+    district: {
+        type: String,
+        trim: true,
+    },
+    upazila: {
+        type: String,
+        trim: true,
+    },
+    union: {
         type: String,
         trim: true,
     },
