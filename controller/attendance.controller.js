@@ -46,7 +46,6 @@ cron.schedule("0 0 * * *", async () => {
 
 // add checkIn
 async function checkIn(req, res){
-    console.log(req.user)
     try {
         const date = new Date().toLocaleDateString();
         const time = new Date().toLocaleTimeString();
@@ -246,7 +245,6 @@ async function allReport(req, res){
 
 // single employee report admin view
 async function employeeSingleReport(req, res) {
-    console.log(req.query.id)
     try{
         const employeeAttendance = await Attendance.find({user_id : req.query.id})
         if (employeeAttendance.length > 0) {
@@ -273,10 +271,29 @@ async function employeeSingleReport(req, res) {
     }
 }
 
+async function getLeave(req, res) {
+    const date = new Date().toLocaleDateString();
+    const existingRecord = await Attendance.findOne({
+        user_id: req.user.id,
+        date: date,
+    });
+    if (existingRecord) {
+        existingRecord.leave = true
+        existingRecord.remarks = "Leave"
+        await existingRecord.save();
+        res.status(HTTP_OK).json({
+            success: true,
+            message: "Leave successfully"
+        })
+    }
+    console.log(existingRecord)
+}
+
 module.exports = {
    checkIn,
    checkOut,
    employeeReport,
    allReport,
-   employeeSingleReport
+   employeeSingleReport,
+   getLeave
 }

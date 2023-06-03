@@ -14,6 +14,7 @@ const useUpdateLocation = require("./router/user/useUpdateLocation")
 const useGetLocation = require("./router/user/useGetLocation")
 const useCheckInRouter = require("./router/useCheckInRouter")
 const useCheckOutRouter = require("./router/useCheckOutRouter")
+const useGetLeave = require("./router/user/useGetLeave")
 
 // admin
 const useAdminSignupRouter = require("./router/admin/useAdminSignupRouter")
@@ -32,7 +33,6 @@ const useGetEmployeeReport = require("./router/report/useGetEmployeeReport")
 const useGetAllReport = require("./router/report/useGetAllReport")
 
 const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
-const { useCheckHoliday } = require('./controller/isHolidayCheck');
 
 // app
 const app = express()
@@ -64,6 +64,7 @@ app.use("/api/get-location", useGetLocation)
 app.use("/api/check-in", useCheckInRouter)
 app.use("/api/check-out", useCheckOutRouter)
 app.use("/api/employee-report", useGetEmployeeReport)
+app.use("/api/leave", useGetLeave)
 
 // admin 
 app.use("/api/admin-sign-up", useAdminSignupRouter)

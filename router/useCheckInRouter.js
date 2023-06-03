@@ -8,6 +8,5 @@ const { checkHoliday } = require("../middlewares/checkHoliday")
 
 const router = express.Router()
 
-console.log("asdlkfjasldk")
 router.post("/", checkLogin, checkHoliday, checkIn)
 module.exports = router
