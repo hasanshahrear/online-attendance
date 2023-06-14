@@ -112,7 +112,7 @@ async function checkOut(req, res){
         }else {
             res.status(HTTP_SERVER_ERROR).json({
                 success: false,
-                message: "You doesn't check in today"
+                message: "You didn't check in today"
             })
         }
     } catch (error) {
@@ -181,7 +181,7 @@ async function allReport(req, res){
         Attendance.aggregate([
             {
                 $match: {
-                //   date, 
+                  date, 
                   ...filter,
                 },
             },
@@ -243,6 +243,39 @@ async function allReport(req, res){
     }
 }
 
+// update inactive 
+async function updateInactive(req, res){
+    try{
+        console.log(req.body.time)
+        const date = new Date().toLocaleDateString();
+        const time = new Date();
+        const existingRecord = await Attendance.findOne({
+            user_id: req.user.id,
+            date: date,
+        });
+
+        if (existingRecord) {
+            existingRecord?.inactive.push({ time: time });
+            await existingRecord.save();
+            res.status(HTTP_OK).json({
+                success: true,
+                message: "Check Out successfully"
+            })
+        }else {
+            res.status(HTTP_SERVER_ERROR).json({
+                success: false,
+                message: "You didn't check in today"
+            })
+        }
+    }catch(error){
+        res.status(HTTP_SERVER_ERROR).json({
+            success: false,
+            statusCode: HTTP_SERVER_ERROR,
+            message: error.message
+        })
+    }
+}
+
 // single employee report admin view
 async function employeeSingleReport(req, res) {
     try{
@@ -272,6 +305,7 @@ async function employeeSingleReport(req, res) {
 }
 
 async function getLeave(req, res) {
+    console.log("called")
     const date = new Date().toLocaleDateString();
     const existingRecord = await Attendance.findOne({
         user_id: req.user.id,
@@ -295,5 +329,6 @@ module.exports = {
    employeeReport,
    allReport,
    employeeSingleReport,
-   getLeave
+   getLeave,
+   updateInactive
 }

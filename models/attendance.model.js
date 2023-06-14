@@ -21,6 +21,9 @@ const attendanceSchema = new Schema({
         time: { type: String },
         distance: {type: String}
       }],
+    inactive: [{
+        time: { type: Date },
+    }],
     status: {
         type: Boolean,
         default: false,

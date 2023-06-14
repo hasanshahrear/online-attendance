@@ -31,6 +31,8 @@ const useHolidays = require("./router/useAddHolidays")
 // reports
 const useGetEmployeeReport = require("./router/report/useGetEmployeeReport")
 const useGetAllReport = require("./router/report/useGetAllReport")
+const useInactive = require("./router/user/useInactive")
+const useIdleTime = require("./router/useIdleTime")
 
 const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
 
@@ -65,6 +67,7 @@ app.use("/api/check-in", useCheckInRouter)
 app.use("/api/check-out", useCheckOutRouter)
 app.use("/api/employee-report", useGetEmployeeReport)
 app.use("/api/leave", useGetLeave)
+app.use("/api/inactive", useInactive)
 
 // admin 
 app.use("/api/admin-sign-up", useAdminSignupRouter)
@@ -86,6 +89,9 @@ app.use("/api/holidays", useHolidays)
 
 // reports
 app.use("/api/report", useGetAllReport)
+
+// idle time
+app.use("/api/idle-time", useIdleTime)
 
 
 app.use(notFound);
