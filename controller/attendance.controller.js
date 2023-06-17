@@ -46,6 +46,7 @@ cron.schedule("0 0 * * *", async () => {
 
 // add checkIn
 async function checkIn(req, res){
+    console.log(req.body.distance)
     try {
         const date = new Date().toLocaleDateString();
         const time = new Date().toLocaleTimeString();
