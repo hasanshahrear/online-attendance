@@ -319,6 +319,12 @@ async function getLeave(req, res) {
             success: true,
             message: "Leave successfully"
         })
+    }else{
+        res.status(HTTP_SERVER_ERROR).json({
+            success: false,
+            statusCode: HTTP_SERVER_ERROR,
+            message: "Something Went Wrong"
+        })
     }
     console.log(existingRecord)
 }
