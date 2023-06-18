@@ -98,6 +98,6 @@ app.use(notFound);
 app.use(errorHandler);
 
 // start server 
-app.listen(5000, ()=>{
-    console.log(`Server Running at ${5000}`)
+app.listen(process.env.PORT || 5000, ()=>{
+    console.log(`Server Running at ${process.env.PORT}`)
 })
