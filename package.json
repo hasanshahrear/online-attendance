@@ -5,7 +5,7 @@
 		"name": "Hasan Shahrear"
 	},
 	"scripts": {
-		"start": "nodemon app.js"
+		"start": "node index.js"
 	},
 	"dependencies": {
 		"bcrypt": "^5.1.0",
