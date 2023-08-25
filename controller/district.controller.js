@@ -23,6 +23,7 @@ async function addDistrict(req, res){
     }
 }
 
+// get all district
 async function getAllDistrict(req, res){
     try {
         District.find({}, function(error, data){

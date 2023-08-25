@@ -24,6 +24,7 @@ async function addGender(req, res){
     }
 }
 
+// get all gender
 async function getAllGender(req, res){
     try {
         Gender.find({}, function(error, data){
@@ -48,7 +49,7 @@ async function getAllGender(req, res){
         })
     }
 }
-
+ 
 
 
 module.exports = {

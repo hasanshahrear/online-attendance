@@ -36,6 +36,7 @@ async function login(req, res){
     console.log(req.body)
     try {
         const user = await User.findOne({phone : req.body.phone})
+        console.log(user)
         if(user && user._id){
             const {location, first_name, last_name, phone, designation, office_address, district, upazila, union} = user
             isPasswordValid  = await bcrypt.compare(req.body.password, user.password)
@@ -103,16 +104,19 @@ async function updateLocation(req, res){
             await User.findOneAndUpdate({_id: req.user.id}, {location: true})
 
             res.status(HTTP_OK).json({
+                success: true,
                 message: "Location update successfully"
             })
         }else{
             res.status(HTTP_SERVER_ERROR).json({
+                success: false,
                 message: "Location Already Added"
             })
         }
         
     }catch(error){
         res.status(HTTP_SERVER_ERROR).json({
+            success: false,
             message: error.message
         })
     }
