@@ -15,6 +15,7 @@ const useGetLocation = require("./router/user/useGetLocation")
 const useCheckInRouter = require("./router/useCheckInRouter")
 const useCheckOutRouter = require("./router/useCheckOutRouter")
 const useGetLeave = require("./router/user/useGetLeave")
+const useStationLeave = require("./router/user/useStationLeave")
 
 // admin
 const useAdminSignupRouter = require("./router/admin/useAdminSignupRouter")
@@ -92,6 +93,9 @@ app.use("/api/report", useGetAllReport)
 
 // idle time
 app.use("/api/idle-time", useIdleTime)
+
+// station leave
+app.use("/api/station-leave", useStationLeave)
 
 
 app.use(notFound);
