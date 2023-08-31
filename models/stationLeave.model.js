@@ -15,6 +15,11 @@ const stationLeaveSchema = new Schema({
     end_time: {
         type: Date,
     },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+    }
     
 }, {timestamps: true})
 

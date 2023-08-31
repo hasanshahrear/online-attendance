@@ -95,7 +95,7 @@ app.use("/api/report", useGetAllReport)
 app.use("/api/idle-time", useIdleTime)
 
 // station leave
-app.use("/api/station-leave", useStationLeave)
+app.use("/api/station", useStationLeave)
 
 
 app.use(notFound);
