@@ -34,6 +34,8 @@ const useGetEmployeeReport = require("./router/report/useGetEmployeeReport")
 const useGetAllReport = require("./router/report/useGetAllReport")
 const useInactive = require("./router/user/useInactive")
 const useIdleTime = require("./router/useIdleTime")
+const useConnections = require("./router/useConnections")
+
 
 const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
 
@@ -97,9 +99,12 @@ app.use("/api/idle-time", useIdleTime)
 // station leave
 app.use("/api/station", useStationLeave)
 
+// connections Status
+app.use("/api/connection-status", useConnections)
 
 app.use(notFound);
 app.use(errorHandler);
+
 
 // start server 
 app.listen(process.env.PORT || 5000, ()=>{
