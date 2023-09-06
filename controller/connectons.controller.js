@@ -7,6 +7,7 @@ const HTTP_SERVER_ERROR = 500;
 async function connectionStatus(req, res){
     try{
         const conStatus = new ConnectionStatus({
+            user: req.user.id,
             ...req.body,
         });       
         await conStatus.save()
