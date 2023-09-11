@@ -1,9 +1,7 @@
+const {StatusCodes} = require("http-status-codes")
 // internal imports
 const District = require("../models/district.model")
 
-// constants
-const HTTP_OK = 200;
-const HTTP_SERVER_ERROR = 500;
 // add district
 async function addDistrict(req, res){
     try {
@@ -11,47 +9,58 @@ async function addDistrict(req, res){
             ...req.body,
         });       
         await district.save()
-        res.status(HTTP_OK).json({
-            success: true,
-            message: "District added successfully"
-        })
+        return res.json({
+            status: "success",
+            statusCode: StatusCodes.OK,
+            message: "District added successfully",
+            data: null,
+        });
     } catch (error) {
-        res.status(HTTP_SERVER_ERROR).json({
-            success: false,
-            message: error.message
-        })
+        return res.json({
+            status: "error",
+            statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+            message: "Internal Server Error",
+            error: error,
+        });
     }
 }
 
 // get all district
 async function getAllDistrict(req, res){
+    const paginationData = req.pagination;
+    res.json(paginationData);
+}
+
+// get by Id
+async function getDistrict(req, res){
     try {
-        District.find({}, function(error, data){
-            if(error){
-                res.status(HTTP_SERVER_ERROR).json({
-                    success: false,
-                    message: error.message
-                })
-            }else{
-                res.status(HTTP_OK).json({
-                    success: true,
-                    message: "Request successfully",
-                    data,
-                })
-            }
-        })
-        
+        const document = await District.findById(req.query.id);
+        if (!document) {
+          return res.json({
+            status: "error",
+            statusCode: StatusCodes.NOT_FOUND,
+            message: "District Not Found",
+            error: null,
+        });
+        }
+        res.json({
+            status: "success",
+            statusCode: StatusCodes.OK,
+            message: "District Information",
+            data: document,
+        });
     } catch (error) {
-        res.status(HTTP_SERVER_ERROR).json({
-            success: false,
-            message: error.message
-        })
+        return res.json({
+            status: "error",
+            statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+            message: "Internal Server Error",
+            error: error,
+        });
     }
 }
 
-
-
 module.exports = {
     addDistrict,
-    getAllDistrict
+    getDistrict,
+    getAllDistrict,
 }
