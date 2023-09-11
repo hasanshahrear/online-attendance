@@ -25,6 +25,38 @@ async function addDistrict(req, res){
     }
 }
 
+// update by Id
+async function updateDistrictById(req, res){
+    District.findByIdAndUpdate(req.query.id, { $set: { district_name: req.body.district_name } }, { new: true }, (error, document) => {
+        if (error) {
+            return res.json({
+                status: "error",
+                statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+                message: "Internal Server Error",
+                error: error,
+            });
+        }
+        
+        if (document) {
+            res.json({
+                status: "success",
+                statusCode: StatusCodes.OK,
+                message: "District Updated Successfully",
+                data: document,
+            });
+        } else {
+            return res.json({
+                status: "error",
+                statusCode: StatusCodes.NOT_FOUND,
+                message: "District Not Found",
+                error: null,
+            });
+        }
+    });
+        
+    
+}
+
 // get all district
 async function getAllDistrict(req, res){
     const paginationData = req.pagination;
@@ -32,7 +64,7 @@ async function getAllDistrict(req, res){
 }
 
 // get by Id
-async function getDistrict(req, res){
+async function getDistrictById(req, res){
     try {
         const document = await District.findById(req.query.id);
         if (!document) {
@@ -59,8 +91,38 @@ async function getDistrict(req, res){
     }
 }
 
+// delete by Id
+async function deleteDistrictById(req, res){
+    try {
+        const document = await District.findByIdAndRemove(req.query.id);
+        if (!document) {
+          return res.json({
+            status: "error",
+            statusCode: StatusCodes.NOT_FOUND,
+            message: "District Not Found",
+            error: null,
+        });
+        }
+        res.json({
+            status: "success",
+            statusCode: StatusCodes.OK,
+            message: "District Delete Successfully",
+            data: document,
+        });
+    } catch (error) {
+        return res.json({
+            status: "error",
+            statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+            message: "Internal Server Error",
+            error: error,
+        });
+    }
+}
+
 module.exports = {
     addDistrict,
-    getDistrict,
+    getDistrictById,
     getAllDistrict,
+    deleteDistrictById,
+    updateDistrictById
 }
