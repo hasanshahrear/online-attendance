@@ -20,7 +20,7 @@ async function addDistrict(req, res){
             status: "error",
             statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
             message: "Internal Server Error",
-            error: error,
+            error,
         });
     }
 }

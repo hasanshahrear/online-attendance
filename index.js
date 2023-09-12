@@ -20,9 +20,11 @@ const useStationLeave = require("./router/user/useStationLeave")
 // admin
 const useAdminSignupRouter = require("./router/admin/useAdminSignupRouter")
 const useAdminLoginRouter = require("./router/admin/useAdminLoginRouter")
+// address
 const useDistrict = require("./router/useDistrict")
-const useAddSubDistrict = require("./router/useAddSubDistrict")
+const useSubDistrict = require("./router/useSubDistrict")
 const useAddUnion = require("./router/useAddUnion")
+
 const useAddDesignation = require("./router/useAddDesignation")
 const useAddGender = require("./router/useAddGender")
 const useWeeklyHolidays = require("./router/useAddWeeklyHolidays")
@@ -78,7 +80,7 @@ app.use("/api/admin-login", useAdminLoginRouter)
 
 // address route
 app.use("/api/district", useDistrict)
-app.use("/api/sub-district", useAddSubDistrict)
+app.use("/api/sub-district", useSubDistrict)
 app.use("/api/union", useAddUnion)
 
 // designation route

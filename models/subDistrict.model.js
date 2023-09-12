@@ -17,7 +17,6 @@ const subDistrictSchema = new Schema({
     },
     status: {
         type: Boolean,
-        required: true,
         default: true,
     }
     

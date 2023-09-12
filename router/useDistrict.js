@@ -9,10 +9,10 @@ const {paginationMiddleware} = require("../middlewares/paginationMiddleware")
 const router = express.Router()
 
 router.post("/", checkAdminLogin, addDistrict)
+router.put("/", checkAdminLogin, updateDistrictById)
 router.get("/get-all", checkAdminLogin, paginationMiddleware("district.model"), getAllDistrict)
 router.get("/", checkAdminLogin, getDistrictById)
 router.delete("/", checkAdminLogin, deleteDistrictById)
-router.put("/", checkAdminLogin, updateDistrictById)
 router.put("/active", checkAdminLogin, activeDistrictById)
 router.put("/in-active", checkAdminLogin, inactiveDistrictById)
 
