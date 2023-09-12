@@ -52,9 +52,7 @@ async function updateDistrictById(req, res){
                 error: null,
             });
         }
-    });
-        
-    
+    });  
 }
 
 // get all district
@@ -119,10 +117,72 @@ async function deleteDistrictById(req, res){
     }
 }
 
+// status active by Id
+async function activeDistrictById(req, res){
+    District.findByIdAndUpdate(req.query.id, { $set: { status: true } }, { new: true }, (error, document) => {
+        if (error) {
+            return res.json({
+                status: "error",
+                statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+                message: "Internal Server Error",
+                error: error,
+            });
+        }
+        
+        if (document) {
+            res.json({
+                status: "success",
+                statusCode: StatusCodes.OK,
+                message: "District Active Successfully",
+                data: document,
+            });
+        } else {
+            return res.json({
+                status: "error",
+                statusCode: StatusCodes.NOT_FOUND,
+                message: "District Not Found",
+                error: null,
+            });
+        }
+    });
+}
+
+// status active by Id
+async function inactiveDistrictById(req, res){
+    District.findByIdAndUpdate(req.query.id, { $set: { status: false } }, { new: true }, (error, document) => {
+        if (error) {
+            return res.json({
+                status: "error",
+                statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+                message: "Internal Server Error",
+                error: error,
+            });
+        }
+        
+        if (document) {
+            res.json({
+                status: "success",
+                statusCode: StatusCodes.OK,
+                message: "District InActive Successfully",
+                data: document,
+            });
+        } else {
+            return res.json({
+                status: "error",
+                statusCode: StatusCodes.NOT_FOUND,
+                message: "District Not Found",
+                error: null,
+            });
+        }
+    });
+}
+
 module.exports = {
     addDistrict,
     getDistrictById,
     getAllDistrict,
     deleteDistrictById,
-    updateDistrictById
+    updateDistrictById,
+    activeDistrictById,
+    inactiveDistrictById
 }
