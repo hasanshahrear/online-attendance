@@ -176,48 +176,33 @@ async function inactiveSubDistrictById(req, res){
     });
 }
 
-// async function getAllSubDistrict(req, res){
-//     try {
-//         if(req.query.district_id === "-1"){
-//             SubDistrict.find({}, function(error, data){
-//                 if(error){
-//                     res.status(HTTP_SERVER_ERROR).json({
-//                         success: false,
-//                         message: error.message
-//                     })
-//                 }else{
-//                     res.status(HTTP_OK).json({
-//                         success: true,
-//                         message: "Request successfully",
-//                         data,
-//                     })
-//                 }
-//             })
-//         }
-//         else{
-//             SubDistrict.find({district_id:req.query.district_id}, function(error, data){
-//                 if(error){
-//                     res.status(HTTP_SERVER_ERROR).json({
-//                         success: false,
-//                         message: error.message
-//                     })
-//                 }else{
-//                     res.status(HTTP_OK).json({
-//                         success: true,
-//                         message: "Request successfully",
-//                         data,
-//                     })
-//                 }
-//             })
-//         }
+async function getSubDistrictByDistrictId(req, res){
+    try {
+        const document = await SubDistrict.find({district_id:req.query.district_id})
+        if (!document) {
+            return res.json({
+              status: "error",
+              statusCode: StatusCodes.NOT_FOUND,
+              message: "Sub District Not Found",
+              error: null,
+          });
+        }
+        res.json({
+            status: "success",
+            statusCode: StatusCodes.OK,
+            message: "Sub District Information",
+            data: document,
+        });
         
-//     } catch (error) {
-//         res.status(HTTP_SERVER_ERROR).json({
-//             success: false,
-//             message: error.message
-//         })
-//     }
-// }
+    } catch (error) {
+        return res.json({
+            status: "error",
+            statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+            message: "Internal Server Error",
+            error: error,
+        });
+    }
+}
 
 module.exports = {
     addSubDistrict,
@@ -226,5 +211,6 @@ module.exports = {
     getSubDistrictById,
     deleteSubDistrictById,
     activeSubDistrictById,
-    inactiveSubDistrictById
+    inactiveSubDistrictById,
+    getSubDistrictByDistrictId,
 }
