@@ -15,6 +15,7 @@ const useGetLocation = require("./router/user/useGetLocation")
 const useCheckInRouter = require("./router/useCheckInRouter")
 const useCheckOutRouter = require("./router/useCheckOutRouter")
 const useGetLeave = require("./router/user/useGetLeave")
+const useEmployee = require("./router/user/useEmployee")
 const useStationLeave = require("./router/user/useStationLeave")
 
 // admin
@@ -66,6 +67,7 @@ app.use("/api/login", useLoginRouter )
 app.use("/api/sign-up", useSignupRouter)
 app.use("/api/update-location", useUpdateLocation)
 app.use("/api/get-location", useGetLocation)
+app.use("/api/employees", useEmployee)
 
 // attendance route
 app.use("/api/check-in", useCheckInRouter)
