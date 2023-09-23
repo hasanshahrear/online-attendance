@@ -51,7 +51,87 @@ async function getAllDesignation(req, res){
 
 
 
+async function getDesignationById(req, res) {
+    try {
+      const designationId = req.params.id;
+      const designation = await Designation.findById(designationId);
+  
+      if (!designation) {
+        return res.status(404).json({ message: 'Designation not found' });
+      }
+  
+      return res.status(200).json(designation);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
+/*
+Postman: /api_endpoint/:id
+{
+  "designation_name": "Updated Designation Name",
+  "status": false
+}
+
+*/
+
+async function updateDesignation(req, res) {
+    try {
+      const designationId = req.params.id;
+      const updates = req.body;
+  
+      const updatedDesignation = await Designation.findByIdAndUpdate(
+        designationId,
+        updates,
+        { new: true }
+      );
+  
+      if (!updatedDesignation) {
+        return res.status(404).json({ message: 'Designation not found' });
+      }
+  
+      return res.status(200).json(updatedDesignation);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
+async function deleteDesignation(req, res) {
+    try {
+      const designationId = req.params.id;
+  
+      const deletedDesignation = await Designation.findByIdAndRemove(designationId);
+  
+      if (!deletedDesignation) {
+        return res.status(404).json({ message: 'Designation not found' });
+      }
+  
+      return res.status(204).json(); // No Content - Successfully deleted
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+  
+
+async function getAllDesignationList(req, res) {
+    try {
+      const designations = await Designation.find();
+  
+      return res.status(200).json(designations);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
 module.exports = {
     addDesignation,
-    getAllDesignation
+    getAllDesignation,
+    getDesignationById,
+    updateDesignation,
+    deleteDesignation,
+    getAllDesignationList
 }
