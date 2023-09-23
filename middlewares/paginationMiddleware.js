@@ -41,7 +41,7 @@ const paginationMiddleware = (modelName, populateOptions) => {
       return res.json({
         status: "error",
         statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-        message: "Internal Server Error",
+        message: error.message,
         error,
       });
     }

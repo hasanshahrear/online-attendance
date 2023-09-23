@@ -1,55 +1,34 @@
 // internal imports
+const { StatusCodes } = require("http-status-codes");
 const Designation = require("../models/designation.model")
-
-// constants
-const HTTP_OK = 200;
-const HTTP_SERVER_ERROR = 500;
 
 // add designation
 async function addDesignation(req, res){
-    try {
-        const designation = new Designation({
-            ...req.body,
-        });       
-        await designation.save()
-        res.status(HTTP_OK).json({
-            success: true,
-            message: "Designation added successfully"
-        })
-    } catch (error) {
-        res.status(HTTP_SERVER_ERROR).json({
-            success: false,
-            message: error.message
-        })
-    }
+  try {
+    const designation = new Designation({
+      ...req.body,
+    });
+    await designation.save();
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: "Designation added successfully",
+      status: "success",
+      statusCode: StatusCodes.OK,
+      data: null,
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: error.message
+    });
+  }
 }
 
+// get all designation
 async function getAllDesignation(req, res){
-    try {
-        Designation.find({}, function(error, data){
-            if(error){
-                res.status(HTTP_SERVER_ERROR).json({
-                    success: false,
-                    message: error.message
-                })
-            }else{
-                res.status(HTTP_OK).json({
-                    success: true,
-                    message: "Request successfully",
-                    data,
-                })
-            }
-        })
-        
-    } catch (error) {
-        res.status(HTTP_SERVER_ERROR).json({
-            success: false,
-            message: error.message
-        })
-    }
+  const paginationData = req.pagination;
+  res.json(paginationData);
 }
-
-
 
 async function getDesignationById(req, res) {
     try {
@@ -60,10 +39,10 @@ async function getDesignationById(req, res) {
         return res.status(404).json({ message: 'Designation not found' });
       }
   
-      return res.status(200).json(designation);
+      return res.status(StatusCodes.OK).json(designation);
     } catch (error) {
       console.error(error);
-      return res.status(500).json({ message: 'Internal Server Error' });
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: error.message });
     }
 }
 
@@ -91,10 +70,15 @@ async function updateDesignation(req, res) {
         return res.status(404).json({ message: 'Designation not found' });
       }
   
-      return res.status(200).json(updatedDesignation);
+      return res.status(StatusCodes.OK).json({
+        status: "success",
+        statusCode: StatusCodes.OK,
+        message: "Designation Updated Successfully",
+        data: null,
+      });
     } catch (error) {
       console.error(error);
-      return res.status(500).json({ message: 'Internal Server Error' });
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: error.message });
     }
 }
 
@@ -105,13 +89,19 @@ async function deleteDesignation(req, res) {
       const deletedDesignation = await Designation.findByIdAndRemove(designationId);
   
       if (!deletedDesignation) {
-        return res.status(404).json({ message: 'Designation not found' });
+        return res.status(StatusCodes.NOT_FOUND).json({ message: 'Designation not found' });
       }
   
-      return res.status(204).json(); // No Content - Successfully deleted
+      return res.status(StatusCodes.OK).json(
+        {
+          status: "success",
+          statusCode: StatusCodes.OK,
+          message: "Designation Updated Successfully",
+          data: null,
+        }
+      );
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: 'Internal Server Error' });
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: error.message });
     }
 }
   
@@ -120,10 +110,10 @@ async function getAllDesignationList(req, res) {
     try {
       const designations = await Designation.find();
   
-      return res.status(200).json(designations);
+      return res.status(StatusCodes.OK).json(designations);
     } catch (error) {
       console.error(error);
-      return res.status(500).json({ message: 'Internal Server Error' });
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: error.message });
     }
 }
 

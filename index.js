@@ -27,7 +27,7 @@ const useDistrict = require("./router/useDistrict")
 const useSubDistrict = require("./router/useSubDistrict")
 const useUnion = require("./router/useUnion")
 
-const useAddDesignation = require("./router/useAddDesignation")
+const useDesignation = require("./router/useDesignation")
 const useAddGender = require("./router/useAddGender")
 const useWeeklyHolidays = require("./router/useAddWeeklyHolidays")
 const useActiveWeeklyHoliday = require("./router/useActiveWeeklyHolidays")
@@ -90,7 +90,7 @@ app.use("/api/sub-district", useSubDistrict)
 app.use("/api/union", useUnion)
 
 // designation route
-app.use("/api/designation", useAddDesignation)
+app.use("/api/designation", useDesignation)
 app.use("/api/gender", useAddGender)
 
 // holidays route
