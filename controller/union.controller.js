@@ -1,9 +1,6 @@
 // internal imports
+const { StatusCodes } = require("http-status-codes");
 const Union = require("../models/union.model")
-
-// constants
-const HTTP_OK = 200;
-const HTTP_SERVER_ERROR = 500;
 
 // add union
 async function addUnion(req, res){
@@ -14,37 +11,88 @@ async function addUnion(req, res){
         await union.save()
         res.status(200).json({
             success: true,
-            message: "Union added successfully"
+            status: "success",
+            statusCode: StatusCodes.OK,
+            message: "Union added successfully",
+            data: null,
         })
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: "Union did not added"
+            message: error.message,
+            error: error
         })
     }
 }
 
+
+// get all sub district
 async function getAllUnion(req, res){
-    console.log(req.query.sub_district_id)
-    try {
-        const union = await Union.find({sub_district_id: req.query.sub_district_id})
-
-        res.status(HTTP_OK).json({
-            success: true,
-            message: "Request successfully",
-            data : union,
-        })        
-    } catch (error) {
-        res.status(HTTP_SERVER_ERROR).json({
-            success: false,
-            message: error.message
-        })
-    }
+    const paginationData = req.pagination;
+    res.json(paginationData);
 }
 
+// update by Id
+async function updateUnionById(req, res){
+    Union.findByIdAndUpdate(req.query.id, { $set: {district_id: req.body.district_id , sub_district_id: req.body.sub_district_id , union_name: req.body.union_name } }, { new: true }, (error, document) => {
+        if (error) {
+            return res.json({
+                status: "error",
+                statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+                message: error.message,
+                error: error,
+            });
+        }
+        
+        if (document) {
+            res.json({
+                status: "success",
+                statusCode: StatusCodes.OK,
+                message: "Sub District Updated Successfully",
+                data: null,
+            });
+        } else {
+            return res.json({
+                status: "error",
+                statusCode: StatusCodes.NOT_FOUND,
+                message: "Sub District Not Found",
+                error: null,
+            });
+        }
+    });  
+}
 
+// delete by Id
+async function deleteUnionById(req, res){
+    try {
+        const document = await Union.findByIdAndRemove(req.query.id);
+        if (!document) {
+          return res.json({
+            status: "error",
+            statusCode: StatusCodes.NOT_FOUND,
+            message: "Union Not Found",
+            error: null,
+        });
+        }
+        res.json({
+            status: "success",
+            statusCode: StatusCodes.OK,
+            message: "Union Delete Successfully",
+            data: null,
+        });
+    } catch (error) {
+        return res.json({
+            status: "error",
+            statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+            message: error.message,
+            error: error,
+        });
+    }
+}
 
 module.exports = {
     addUnion,
     getAllUnion,
+    updateUnionById,
+    deleteUnionById
 }

@@ -19,7 +19,7 @@ async function addSubDistrict(req, res){
         return res.json({
             status: "error",
             statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-            message: "Internal Server Error",
+            message: error.message,
             error,
         });
     }
@@ -32,7 +32,7 @@ async function updateSubDistrictById(req, res){
             return res.json({
                 status: "error",
                 statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-                message: "Internal Server Error",
+                message: error.message,
                 error: error,
             });
         }
@@ -83,7 +83,7 @@ async function getSubDistrictById(req, res){
         return res.json({
             status: "error",
             statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-            message: "Internal Server Error",
+            message: error.message,
             error: error,
         });
     }
@@ -111,7 +111,7 @@ async function deleteSubDistrictById(req, res){
         return res.json({
             status: "error",
             statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-            message: "Internal Server Error",
+            message: error.message,
             error: error,
         });
     }
@@ -124,7 +124,7 @@ async function activeSubDistrictById(req, res){
             return res.json({
                 status: "error",
                 statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-                message: "Internal Server Error",
+                message: error.message,
                 error: error,
             });
         }
@@ -153,7 +153,7 @@ async function inactiveSubDistrictById(req, res){
             return res.json({
                 status: "error",
                 statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-                message: "Internal Server Error",
+                message: error.message,
                 error: error,
             });
         }
@@ -198,7 +198,7 @@ async function getSubDistrictByDistrictId(req, res){
         return res.json({
             status: "error",
             statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-            message: "Internal Server Error",
+            message: error.message,
             error: error,
         });
     }

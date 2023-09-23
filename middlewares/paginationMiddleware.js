@@ -11,7 +11,7 @@ const paginationMiddleware = (modelName, populateOptions) => {
       const totalPages = Math.ceil(totalCount / size);
       const startIndex = (page - 1) * size;
 
-      let query = Model.find().limit(size).skip(startIndex);
+      let query = Model.find().sort({'updatedAt': -1}).limit(size).skip(startIndex);
 
       if (populateOptions) {
         if (Array.isArray(populateOptions)) {
@@ -33,6 +33,7 @@ const paginationMiddleware = (modelName, populateOptions) => {
         totalDocs: totalCount,
         hasNext: page < totalPages,
         hasPrev: page > 1,
+        startIndex: startIndex+1
       };
 
       next();

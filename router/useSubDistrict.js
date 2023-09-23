@@ -16,6 +16,6 @@ router.get("/", checkAdminLogin, getSubDistrictById)
 router.delete("/", checkAdminLogin, deleteSubDistrictById)
 router.put("/active", checkAdminLogin, activeSubDistrictById)
 router.put("/in-active", checkAdminLogin, inactiveSubDistrictById)
-router.get("/get-subDistrictByDistrictId", checkAdminLogin, getSubDistrictByDistrictId)
+router.get("/get-sub-district-by-district", checkAdminLogin, getSubDistrictByDistrictId)
 
 module.exports = router

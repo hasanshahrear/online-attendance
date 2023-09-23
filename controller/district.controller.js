@@ -19,7 +19,7 @@ async function addDistrict(req, res){
         return res.json({
             status: "error",
             statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-            message: "Internal Server Error",
+            message: error.message,
             error,
         });
     }
@@ -59,6 +59,30 @@ async function updateDistrictById(req, res){
 async function getAllDistrict(req, res){
     const paginationData = req.pagination;
     res.json(paginationData);
+}
+
+async function getAllDistrictDropdown(req, res){
+   try {
+        const document = await District.find();
+        if (!document) {
+        return res.json({
+            status: "error",
+            statusCode: StatusCodes.NOT_FOUND,
+            message: "District Not Found",
+            error: null,
+        });
+        }
+        res.json({
+            data: document,
+        });
+    } catch (error) {
+        return res.json({
+            status: "error",
+            statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+            message: error.message,
+            error: error,
+        });
+    }
 }
 
 // get by Id
@@ -184,5 +208,6 @@ module.exports = {
     deleteDistrictById,
     updateDistrictById,
     activeDistrictById,
-    inactiveDistrictById
+    inactiveDistrictById,
+    getAllDistrictDropdown
 }

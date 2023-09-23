@@ -5,6 +5,7 @@ const mongoose = require("mongoose")
 const geolib = require('geolib');
 const helmet = require('helmet');
 const cron = require("node-cron");
+const cors = require('cors');
 
 // internal imports
 // employee 
@@ -23,7 +24,7 @@ const useAdminLoginRouter = require("./router/admin/useAdminLoginRouter")
 // address
 const useDistrict = require("./router/useDistrict")
 const useSubDistrict = require("./router/useSubDistrict")
-const useAddUnion = require("./router/useAddUnion")
+const useUnion = require("./router/useUnion")
 
 const useAddDesignation = require("./router/useAddDesignation")
 const useAddGender = require("./router/useAddGender")
@@ -44,6 +45,9 @@ const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
 // app
 const app = express()
 dotenv.config()
+
+// Allow requests from any origin
+app.use(cors({ origin: '*' }));
 
 // database connection
 mongoose.connect(process.env.MONGOOSE_CONNECTION_STRING, {
@@ -81,7 +85,7 @@ app.use("/api/admin-login", useAdminLoginRouter)
 // address route
 app.use("/api/district", useDistrict)
 app.use("/api/sub-district", useSubDistrict)
-app.use("/api/union", useAddUnion)
+app.use("/api/union", useUnion)
 
 // designation route
 app.use("/api/designation", useAddDesignation)
