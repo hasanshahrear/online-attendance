@@ -2,7 +2,7 @@
 const express = require("express")
 
 // internal imports
-const {addUnion, getAllUnion, updateUnionById, deleteUnionById} = require("../controller/union.controller")
+const {addUnion, getAllUnion, updateUnionById, deleteUnionById, getUnionBySubDistrict} = require("../controller/union.controller")
 const { checkAdminLogin } = require("../middlewares/checkLogin")
 const { paginationMiddleware } = require("../middlewares/paginationMiddleware")
 
@@ -13,5 +13,6 @@ router.put("/", checkAdminLogin, updateUnionById)
 router.delete("/", checkAdminLogin, deleteUnionById)
 router.get("/", checkAdminLogin, getAllUnion)
 router.get("/get-all", checkAdminLogin, paginationMiddleware("union.model", populatedData), getAllUnion)
+router.get("/get-union-by-sub-district", checkAdminLogin, getUnionBySubDistrict)
 
 module.exports = router

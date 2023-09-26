@@ -31,7 +31,7 @@ const useDesignation = require("./router/useDesignation")
 const useAddGender = require("./router/useAddGender")
 const useWeeklyHolidays = require("./router/useAddWeeklyHolidays")
 const useActiveWeeklyHoliday = require("./router/useActiveWeeklyHolidays")
-const useHolidays = require("./router/useAddHolidays")
+const useHolidays = require("./router/useHolidays")
 
 // reports
 const useGetEmployeeReport = require("./router/report/useGetEmployeeReport")

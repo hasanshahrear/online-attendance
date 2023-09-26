@@ -9,6 +9,7 @@ const router = express.Router()
 
 router.post("/", checkAdminLogin, addDesignation)
 router.get("/get-all", checkAdminLogin, paginationMiddleware("designation.model"), getAllDesignation)
+router.get("/designation-dropdown", checkAdminLogin, getAllDesignationList)
 router.get("/:id", checkAdminLogin, getDesignationById)
 router.put("/:id", checkAdminLogin, updateDesignation)
 router.delete("/:id", checkAdminLogin, deleteDesignation)

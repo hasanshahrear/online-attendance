@@ -1,5 +1,7 @@
 // paginationMiddleware.js
 
+const { StatusCodes } = require("http-status-codes");
+
 const paginationMiddleware = (modelName, populateOptions) => {
   return async (req, res, next) => {
     const page = parseInt(req.query.page) || 1;

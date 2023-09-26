@@ -9,13 +9,14 @@ const {
   getAllEmployeeList,
 } = require("../../controller/user.controller");
 const { checkAdminLogin } = require("../../middlewares/checkLogin");
-
+const { paginationMiddleware } = require("../../middlewares/paginationMiddleware");
+const populatedData = ["district", "upazila", "union", "designation"]
 const router = express.Router();
 
+router.get("/get-all", checkAdminLogin, paginationMiddleware("user.model", populatedData), getAllEmployeeList);
 router.get("/:id", checkAdminLogin, getEmployeeById);
 router.put("/:id", checkAdminLogin, handleUpdateEmployee);
 router.delete("/:id", checkAdminLogin, handleDeleteEmployee);
-router.get("/list", checkAdminLogin, getAllEmployeeList);
 
 module.exports = router;
 

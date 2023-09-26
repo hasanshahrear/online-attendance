@@ -31,14 +31,15 @@ const userSchema = new Schema({
               return emailRegex.test(email);
             },
             message: props => `${props.value} is not a valid email address!`
-          }
+        }
     },
     password: {
         type: String,
         required: true,
     },
     designation : {
-        type : String,
+        type : Schema.Types.ObjectId,
+        ref: 'Designation',
         required: true,
     },
     office_address : {
@@ -54,15 +55,18 @@ const userSchema = new Schema({
         default: "other"
     },
     district: {
-        type : String,
+        type : Schema.Types.ObjectId,
+        ref: 'District',
         required: true,
     },
     upazila: {
-        type : String,
+        type : Schema.Types.ObjectId,
+        ref: 'SubDistrict',
         required: true,
     },
     union: {
-        type : String,
+        type : Schema.Types.ObjectId,
+        ref: 'Union',
         required: true,
     },
     location: {

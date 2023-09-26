@@ -90,9 +90,39 @@ async function deleteUnionById(req, res){
     }
 }
 
+// union by upazila
+async function getUnionBySubDistrict(req, res){
+    try {
+        const document = await Union.find({sub_district_id:req.query.id})
+        if (!document) {
+            return res.json({
+              status: "error",
+              statusCode: StatusCodes.NOT_FOUND,
+              message: "Sub District Not Found",
+              error: null,
+          });
+        }
+        res.json({
+            status: "success",
+            statusCode: StatusCodes.OK,
+            message: "Union Information",
+            data: document,
+        });
+        
+    } catch (error) {
+        return res.json({
+            status: "error",
+            statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+            message: error.message,
+            error: error,
+        });
+    }
+}
+
 module.exports = {
     addUnion,
     getAllUnion,
     updateUnionById,
-    deleteUnionById
+    deleteUnionById,
+    getUnionBySubDistrict,
 }

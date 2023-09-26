@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 // internal imports
 const User = require("../models/user.model");
+const { StatusCodes } = require("http-status-codes");
 
 // constants
 const HTTP_OK = 200;
@@ -11,20 +12,21 @@ const HTTP_SERVER_ERROR = 500;
 
 // signup new user
 async function signup(req, res) {
-  console.log(req.body);
   const hashedPassword = await bcrypt.hash(req.body.password, 10);
   const user = new User({ ...req.body, password: hashedPassword });
-
   try {
     await user.save();
-
     res.status(HTTP_OK).json({
+      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+      status: "success",
       success: true,
       message: "User added successfully",
     });
   } catch (error) {
-    res.status(HTTP_SERVER_ERROR).json({
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
       success: false,
+      status: "error",
       message: error.message,
     });
   }
@@ -195,23 +197,26 @@ async function handleDeleteEmployee(req, res) {
       return res.status(404).json({ message: "Employee not found" });
     }
 
-    return res.status(204).json(); // No Content - Successfully deleted
+    return res.status(StatusCodes.OK).json({
+      statusCode: StatusCodes.OK,
+      status: "success",
+      success: true,
+      message: "User deleted successfully",
+    }); 
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 }
 
-async function getAllEmployeeList(req, res) {
-  try {
-    const employees = await User.find();
 
-    return res.status(200).json(employees);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Internal Server Error" });
-  }
+
+// get all
+async function getAllEmployeeList(req, res){
+  const paginationData = req.pagination;
+  res.json(paginationData);
 }
+
 
 module.exports = {
   signup,

@@ -1,4 +1,5 @@
 // internal imports
+const { StatusCodes } = require("http-status-codes");
 const Holidays = require("../models/holidays.model");
 
 // constants
@@ -7,7 +8,6 @@ const HTTP_SERVER_ERROR = 500;
 
 // add weekly holidays
 async function addHoliday(req, res) {
-  console.log(req.body);
   try {
     const existingRecord = await Holidays.findOne({
       holyDay: new Date(req.body.holyDay),
@@ -16,6 +16,7 @@ async function addHoliday(req, res) {
     if (existingRecord) {
       return res.status(HTTP_SERVER_ERROR).json({
         success: false,
+        status:"error",
         message: "Already exists",
       });
     }
@@ -26,11 +27,13 @@ async function addHoliday(req, res) {
     await holidays.save();
 
     res.status(HTTP_OK).json({
+      status: "success",
       success: true,
       message: "Holiday added successfully",
     });
   } catch (error) {
     res.status(HTTP_SERVER_ERROR).json({
+      status: "error",
       success: false,
       message: error.message,
     });
@@ -107,19 +110,15 @@ async function getAllHolidays(req, res) {
 // }
 
 async function getAllHolidayList(req, res) {
-  try {
-    const holidays = await Holiday.find();
-    return res.status(200).json(holidays);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Internal Server Error" });
-  }
+  const paginationData = req.pagination;
+  res.json(paginationData);
 }
+
 
 async function getHolidayById(req, res) {
   try {
     const holidayId = req.params.id;
-    const holiday = await Holiday.findById(holidayId);
+    const holiday = await Holidays.findById(holidayId);
 
     if (!holiday) {
       return res.status(404).json({ message: "Holiday not found" });
@@ -136,8 +135,7 @@ async function updateHoliday(req, res) {
   try {
     const holidayId = req.params.id;
     const updates = req.body;
-
-    const updatedHoliday = await Holiday.findByIdAndUpdate(holidayId, updates, {
+    const updatedHoliday = await Holidays.findByIdAndUpdate(holidayId, updates, {
       new: true,
     });
 
@@ -145,10 +143,18 @@ async function updateHoliday(req, res) {
       return res.status(404).json({ message: "Holiday not found" });
     }
 
-    return res.status(200).json(updatedHoliday);
+    return res.status(200).json({
+      status: "success",
+      success: true,
+      message: "Holiday updated successfully",
+    });
+
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Internal Server Error" });
+    return res.status(500).json({ 
+      status: "error",
+      success: false,
+      message: error?.message
+     });
   }
 }
 
@@ -156,16 +162,24 @@ async function deleteHoliday(req, res) {
   try {
     const holidayId = req.params.id;
 
-    const deletedHoliday = await Holiday.findByIdAndRemove(holidayId);
+    const deletedHoliday = await Holidays.findByIdAndRemove(holidayId);
 
     if (!deletedHoliday) {
       return res.status(404).json({ message: "Holiday not found" });
     }
 
-    return res.status(204).json(); // No Content - Successfully deleted
+    return res.status(StatusCodes.OK).json({
+      statusCode: StatusCodes.OK,
+      status: "success",
+      success: true,
+      message: "Holiday deleted successfully",
+    });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Internal Server Error" });
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: "error",
+      success: true,
+      message: error.message,
+   });
   }
 }
 

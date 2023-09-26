@@ -110,7 +110,7 @@ async function getAllDesignationList(req, res) {
     try {
       const designations = await Designation.find();
   
-      return res.status(StatusCodes.OK).json(designations);
+      return res.status(StatusCodes.OK).json({data: designations});
     } catch (error) {
       console.error(error);
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: error.message });
