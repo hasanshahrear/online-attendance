@@ -34,10 +34,9 @@ async function signup(req, res) {
 
 // login user
 async function login(req, res) {
-  console.log(req.body);
   try {
-    const user = await User.findOne({ phone: req.body.phone });
-    console.log(user);
+    const user = await User.findOne({ phone: req.body.phone }).populate(["designation","district", "upazila", "union"]);
+    console.log({user})
     if (user && user._id) {
       const {
         location,
@@ -50,14 +49,16 @@ async function login(req, res) {
         upazila,
         union,
       } = user;
+
+      
       isPasswordValid = await bcrypt.compare(req.body.password, user.password);
       if (isPasswordValid) {
         const userObject = {
-          phone: user.phone,
-          id: user._id,
-          district,
-          upazila,
-          union,
+          phone: user?.phone,
+          id: user?._id,
+          district: district?.name,
+          upazila: upazila?.name,
+          union: union?.name,
         };
         // generate token
         const token = jwt.sign(userObject, process.env.JWT_SECRET, {
@@ -72,8 +73,11 @@ async function login(req, res) {
             first_name,
             last_name,
             phone,
-            designation,
+            designation: designation?.designation_name,
             office_address,
+            district,
+            upazila,
+            union
           },
         });
       } else {
