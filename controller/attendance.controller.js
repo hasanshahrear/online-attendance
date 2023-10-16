@@ -48,41 +48,48 @@ cron.schedule("0 0 * * *", async () => {
 async function checkIn(req, res){
     console.log(req.body.distance)
     try {
-        const date = new Date().toLocaleDateString();
-        const time = new Date().toLocaleTimeString();
-        const existingRecord = await Attendance.findOne({
-            user_id: req.user.id,
-            date: date,
-        });
-
-        if (existingRecord) {
-            existingRecord.check_in.push({ time: time, distance: req.body.distance });
-            existingRecord.status = true;
-            existingRecord.remarks = "Present";
-            await existingRecord.save();
-            res.status(200).json({
-                success: true,
-                message: "Present Update successfully"
-            })
-          } else {
-            const attendance = new Attendance({
+        if(Number(req.body.distance) <= 100){
+            const date = new Date().toLocaleDateString();
+            const time = new Date().toLocaleTimeString();
+            const existingRecord = await Attendance.findOne({
                 user_id: req.user.id,
                 date: date,
-                check_in: {
-                    time:time,
-                    distance: req.body.distance
-                },
-                status: true,
-                remarks: "Present",
-                leave: false,
-                district : req.user.district,
-                upazila : req.user.upazila,
-                union : req.user.union
-            });       
-            await attendance.save()
-            res.status(HTTP_OK).json({
-                success: true,
-                message: "Present successfully"
+            });
+
+            if (existingRecord) {
+                existingRecord.check_in.push({ time: time, distance: req.body.distance });
+                existingRecord.status = true;
+                existingRecord.remarks = "Present";
+                await existingRecord.save();
+                res.status(200).json({
+                    success: true,
+                    message: "Present Update successfully"
+                })
+            } else {
+                const attendance = new Attendance({
+                    user_id: req.user.id,
+                    date: date,
+                    check_in: {
+                        time:time,
+                        distance: req.body.distance
+                    },
+                    status: true,
+                    remarks: "Present",
+                    leave: false,
+                    district : req.user.district,
+                    upazila : req.user.upazila,
+                    union : req.user.union
+                });       
+                await attendance.save()
+                res.status(HTTP_OK).json({
+                    success: true,
+                    message: "Present successfully"
+                })
+            }
+        }else{
+            res.status(HTTP_SERVER_ERROR).json({
+                success: false,
+                message: "Out of 100M from office"
             })
         }
     } catch (error) {
