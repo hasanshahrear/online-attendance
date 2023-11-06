@@ -41,7 +41,7 @@ async function stationBack(req, res) {
       { end_time: req.body.end_time },
       { new: true }
     );
-
+console.log({isLeave})
     if (isLeave) {
       res.status(HTTP_OK).json({
         success: true,

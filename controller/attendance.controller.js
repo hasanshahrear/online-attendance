@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 // internal imports
 const Attendance = require("../models/attendance.model")
 const User = require("../models/user.model")
+const District = require("../models/district.model")
 const cron = require("node-cron");
 const { useCheckHoliday } = require('./isHolidayCheck');
 const IsHolidayCheck = require('../models/isHolidayCheck.model');
@@ -205,6 +206,50 @@ async function allReport(req, res){
                 $unwind: '$user',
             },
             {
+                $lookup: {
+                    from: "districts",
+                    localField: 'user.district',
+                    foreignField: '_id',
+                    as: 'district',
+                },
+            },
+            {
+                $unwind: '$district',
+            },
+            {
+                $lookup: {
+                    from: "subdistricts",
+                    localField: 'user.upazila',
+                    foreignField: '_id',
+                    as: 'upazila',
+                },
+            },
+            {
+                $unwind: '$upazila',
+            },
+            {
+                $lookup: {
+                    from: "unions",
+                    localField: 'user.union',
+                    foreignField: '_id',
+                    as: 'union',
+                },
+            },
+            {
+                $unwind: '$union',
+            },
+            {
+                $lookup: {
+                    from: "designations",
+                    localField: 'user.designation',
+                    foreignField: '_id',
+                    as: 'designation',
+                },
+            },
+            {
+                $unwind: '$designation',
+            },
+            {
               $group: {
                 _id: {
                     upazila: "$upazila",
@@ -227,6 +272,8 @@ async function allReport(req, res){
               },
             
           ]).exec(function (err, result) {
+
+            console.log({result})
               if (err) {
                 res.status(HTTP_SERVER_ERROR).json({
                     success: false,

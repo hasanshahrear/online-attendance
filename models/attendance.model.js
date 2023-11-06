@@ -37,16 +37,16 @@ const attendanceSchema = new Schema({
         default: false,
     },
     district: {
-        type: String,
-        trim: true,
+        type : Schema.Types.ObjectId,
+        ref: "District"
     },
     upazila: {
-        type: String,
-        trim: true,
+        type : Schema.Types.ObjectId,
+        ref: "Upazila"
     },
     union: {
-        type: String,
-        trim: true,
+        type : Schema.Types.ObjectId,
+        ref: "Union"
     },
 }, {timestamps: true})
 
