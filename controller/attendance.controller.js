@@ -11,38 +11,38 @@ const HTTP_OK = 200;
 const HTTP_SERVER_ERROR = 500;
 
 // Run at 12:00 am every day
-cron.schedule("0 0 * * *", async () => {
-    await useCheckHoliday();
-    try {
-      const users = await User.find().exec();
-      const day = await IsHolidayCheck.findOne().exec();
-      const date = new Date().toLocaleDateString();
+// cron.schedule("0 0 * * *", async () => {
+//     await useCheckHoliday();
+//     try {
+//       const users = await User.find().exec();
+//       const day = await IsHolidayCheck.findOne().exec();
+//       const date = new Date().toLocaleDateString();
   
-      if (!day) {
-        console.error('Error finding weekly day');
-        return;
-      }
+//       if (!day) {
+//         console.error('Error finding weekly day');
+//         return;
+//       }
   
-      const attendancePromises = users.map(user => {
-        const remarks = day.holyDay ? day.remarks : "Absent";
-        const attendance = new Attendance({
-          user_id: user._id,
-          date: date,
-          status: false,
-          remarks: remarks,
-          leave: false,
-          district: user.district,
-          upazila: user.upazila,
-          union: user.union
-        });
-        return attendance.save();
-      });
+//       const attendancePromises = users.map(user => {
+//         const remarks = day.holyDay ? day.remarks : "Absent";
+//         const attendance = new Attendance({
+//           user_id: user._id,
+//           date: date,
+//           status: false,
+//           remarks: remarks,
+//           leave: false,
+//           district: user.district,
+//           upazila: user.upazila,
+//           union: user.union
+//         });
+//         return attendance.save();
+//       });
   
-      await Promise.all(attendancePromises);
-    } catch (error) {
-      console.error('Error:', error);
-    }
-});
+//       await Promise.all(attendancePromises);
+//     } catch (error) {
+//       console.error('Error:', error);
+//     }
+// });
 
 
 // add checkIn
@@ -166,7 +166,7 @@ async function allReport(req, res){
     try{
        const date = new Date().toLocaleDateString();
         
-        const { remarks,district, upazila, union, user_id } = req.query; 
+        const { remarks, district, upazila, union, user_id } = req.query; 
 
         const filter = {}; 
 
