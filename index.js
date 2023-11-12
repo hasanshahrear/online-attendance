@@ -41,7 +41,7 @@ const useIdleTime = require("./router/useIdleTime")
 const useConnections = require("./router/useConnections")
 
 // corn
-const { corn} = require("./controller/corn")
+const useCorn = require("./router/useCorn")
 
 
 const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
@@ -70,7 +70,7 @@ app.use(express.urlencoded({extended: true}))
 // routing setup
 
 // corn job
-app.use("/api/corn", corn)
+app.use("/api/corn", useCorn)
 
 // login route
 app.use("/api/login", useLoginRouter )

@@ -1,9 +1,10 @@
-import Attendance from "../models/attendance.model";
-import IsHolidayCheck from "../models/isHolidayCheck.model";
-import User from "../models/user.model";
-import { useCheckHoliday } from "./isHolidayCheck";
+const mongoose = require('mongoose');
+const Attendance = require('../models/attendance.model');
+const IsHolidayCheck = require('../models/isHolidayCheck.model');
+const User = require('../models/user.model');
+const { useCheckHoliday } = require('./isHolidayCheck');
 
-export const cron = async () => {
+async function corn(){
     await useCheckHoliday();
     try {
       const users = await User.find().exec();
@@ -36,3 +37,5 @@ export const cron = async () => {
     }
 
 };
+
+module.exports = { corn };
