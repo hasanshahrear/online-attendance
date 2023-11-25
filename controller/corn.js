@@ -5,6 +5,7 @@ const User = require('../models/user.model');
 const { useCheckHoliday } = require('./isHolidayCheck');
 
 async function corn(){
+    console.log("cron execution", new Date())
     await useCheckHoliday();
     try {
       const users = await User.find().exec();

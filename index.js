@@ -41,7 +41,7 @@ const useIdleTime = require("./router/useIdleTime")
 const useConnections = require("./router/useConnections")
 
 // corn
-const useCorn = require("./router/useCorn")
+const useCron = require("./router/useCorn")
 
 
 const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
@@ -69,8 +69,11 @@ app.use(express.urlencoded({extended: true}))
 
 // routing setup
 
+app.get('/', (req, res) => {
+    res.send("welcome to online attendance service")
+})
 // corn job
-app.use("/api/corn", useCorn)
+app.use("/api/cron", useCron)
 
 // login route
 app.use("/api/login", useLoginRouter )
