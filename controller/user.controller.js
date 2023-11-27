@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 // internal imports
 const User = require("../models/user.model");
 const { StatusCodes } = require("http-status-codes");
+const mongoose = require('mongoose');
 
 // constants
 const HTTP_OK = 200;
@@ -32,39 +33,30 @@ async function signup(req, res) {
   }
 }
 
-// signup new user
-async function updateUser(userId, updatedFields) {
-  try {
-    // Construct the update object based on the provided fields
-    const updateObject = {};
+const updateUser = async (req, res) => {
+  const userId = req.params.userId; 
+  const updatedFields = req.body; 
 
-    // Iterate through the updatedFields and construct the update object
+  try {
+    const updateObject = {};
     for (const field in updatedFields) {
       if (Object.prototype.hasOwnProperty.call(updatedFields, field)) {
         if (field === 'designation' || field === 'district' || field === 'upazila' || field === 'union') {
-          updateObject[field] = mongoose.Types.ObjectId(updatedFields[field]['$oid']);
+          updateObject[field] = mongoose.Types.ObjectId(updatedFields[field]);
         } else {
           updateObject[field] = updatedFields[field];
         }
       }
     }
-
-    // Find the user by ID and update with the constructed update object
     const updatedUser = await User.findByIdAndUpdate(userId, updateObject, { new: true });
-
     if (!updatedUser) {
-      // Handle case when user is not found
-      return { success: false, message: 'User not found' };
+      return res.status(404).json({ success: false, status: "error", message: 'User not found' });
     }
-
-    // Return the updated user
-    return { success: true, updatedUser };
+    return res.status(200).json({ success: true,  status: "success", message: "User Updated successfully",  updatedUser });
   } catch (error) {
-    // Handle errors
-    console.error('Error updating user:', error);
-    throw error;
+    return res.status(500).json({ success: false, status: "error", message: error.message });
   }
-}
+};
 
 // login user
 async function login(req, res) {

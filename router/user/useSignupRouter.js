@@ -8,5 +8,5 @@ const { checkAdminLogin } = require("../../middlewares/checkLogin")
 const router = express.Router()
 
 router.post("/", checkAdminLogin, signup)
-router.put("/", checkAdminLogin, updateUser)
+router.put("/:userId", checkAdminLogin, updateUser)
 module.exports = router
