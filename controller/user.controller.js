@@ -32,6 +32,40 @@ async function signup(req, res) {
   }
 }
 
+// signup new user
+async function updateUser(userId, updatedFields) {
+  try {
+    // Construct the update object based on the provided fields
+    const updateObject = {};
+
+    // Iterate through the updatedFields and construct the update object
+    for (const field in updatedFields) {
+      if (Object.prototype.hasOwnProperty.call(updatedFields, field)) {
+        if (field === 'designation' || field === 'district' || field === 'upazila' || field === 'union') {
+          updateObject[field] = mongoose.Types.ObjectId(updatedFields[field]['$oid']);
+        } else {
+          updateObject[field] = updatedFields[field];
+        }
+      }
+    }
+
+    // Find the user by ID and update with the constructed update object
+    const updatedUser = await User.findByIdAndUpdate(userId, updateObject, { new: true });
+
+    if (!updatedUser) {
+      // Handle case when user is not found
+      return { success: false, message: 'User not found' };
+    }
+
+    // Return the updated user
+    return { success: true, updatedUser };
+  } catch (error) {
+    // Handle errors
+    console.error('Error updating user:', error);
+    throw error;
+  }
+}
+
 // login user
 async function login(req, res) {
   try {
@@ -213,14 +247,11 @@ async function handleDeleteEmployee(req, res) {
   }
 }
 
-
-
 // get all
 async function getAllEmployeeList(req, res){
   const paginationData = req.pagination;
   res.json(paginationData);
 }
-
 
 module.exports = {
   signup,
@@ -231,4 +262,5 @@ module.exports = {
   handleUpdateEmployee,
   handleDeleteEmployee,
   getAllEmployeeList,
+  updateUser
 };
