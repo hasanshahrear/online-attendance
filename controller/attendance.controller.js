@@ -174,19 +174,19 @@ async function allReport(req, res){
             filter.remarks = { $regex: new RegExp(remarks, 'i') };
         }
         if(district){
-            filter.district = { $regex: new RegExp(district, 'i') };
+            filter.district = mongoose.Types.ObjectId(district);
         }
         if(upazila){
-            filter.upazila = { $regex: new RegExp(upazila, 'i') };
+            filter.upazila = mongoose.Types.ObjectId(upazila);
         }
         if(union){
-            filter.union = { $regex: new RegExp(union, 'i') };
+            filter.union = mongoose.Types.ObjectId(union);
         }
         if(user_id){
             filter.user_id = mongoose.Types.ObjectId(user_id);
-           
         }
         console.log(filter)
+        console.log(date)
         Attendance.aggregate([
             {
                 $match: {
