@@ -173,16 +173,16 @@ async function allReport(req, res){
         if (remarks) {
             filter.remarks = { $regex: new RegExp(remarks, 'i') };
         }
-        if(district){
+        if(district !== undefined) {
             filter.district = mongoose.Types.ObjectId(district);
         }
-        if(upazila){
+        if(upazila !== undefined) {
             filter.upazila = mongoose.Types.ObjectId(upazila);
         }
         if(union){
             filter.union = mongoose.Types.ObjectId(union);
         }
-        if(user_id){
+        if(user_id !== undefined) {
             filter.user_id = mongoose.Types.ObjectId(user_id);
         }
         console.log(filter)
