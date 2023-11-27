@@ -170,7 +170,7 @@ async function allReport(req, res){
 
         const filter = {}; 
 
-        if (remarks) {
+        if (remarks !== undefined) {
             filter.remarks = { $regex: new RegExp(remarks, 'i') };
         }
         if(district !== undefined) {
