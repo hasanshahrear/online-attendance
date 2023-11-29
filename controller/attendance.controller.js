@@ -50,8 +50,12 @@ async function checkIn(req, res){
     console.log(req.body.distance)
     try {
         if(Number(req.body.distance) <= 100){
-            const date = new Date().toLocaleDateString();
-            const time = new Date().toLocaleTimeString();
+            // const date = new Date().toLocaleDateString();
+            // const time = new Date().toLocaleTimeString();
+            const currentTime = new Date();
+            const time = currentTime.toLocaleTimeString('en-US', { timeZone: 'Asia/Dhaka' });
+
+            const date = currentTime.toLocaleDateString();
             const existingRecord = await Attendance.findOne({
                 user_id: req.user.id,
                 date: date,
@@ -359,6 +363,71 @@ async function employeeSingleReport(req, res) {
     }
 }
 
+async function getEmployeeMonthlyReport(req, res){
+    try {
+        // Parse fromDate and toDate to JavaScript Date objects
+        const fromDateObj = new Date(fromDate);
+        const toDateObj = new Date(toDate);
+    
+        // Adjust toDate to the end of the day to include entries on that date
+        toDateObj.setHours(23, 59, 59, 999);
+    
+        // Query to find attendance records within the specified date range for all users in the union
+        const unionReport = await Attendance.aggregate([
+          {
+            $match: {
+              union: mongoose.Types.ObjectId(unionId),
+              date: {
+                $gte: fromDateObj.toISOString(),
+                $lte: toDateObj.toISOString(),
+              },
+            },
+          },
+          {
+            $group: {
+              _id: {
+                union: '$union',
+                user: '$user_id',
+              },
+              userData: {
+                $push: {
+                  date: '$date',
+                  check_in: '$check_in',
+                  check_out: '$check_out',
+                },
+              },
+            },
+          },
+          {
+            $group: {
+              _id: '$_id.union',
+              users: {
+                $push: {
+                  user: '$_id.user',
+                  data: '$userData',
+                },
+              },
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+              union: '$_id',
+              users: 1,
+            },
+          },
+        ]);
+    
+        
+        res.status(HTTP_OK).json({
+            unionReport
+        });
+      } catch (error) {
+        console.error('Error generating union report:', error);
+        throw error;
+      }
+}
+
 async function getLeave(req, res) {
     console.log("called")
     const date = new Date().toLocaleDateString();
@@ -391,5 +460,6 @@ module.exports = {
    allReport,
    employeeSingleReport,
    getLeave,
-   updateInactive
+   updateInactive,
+   getEmployeeMonthlyReport
 }
