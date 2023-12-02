@@ -5,6 +5,10 @@ const HTTP_OK = 200;
 const HTTP_SERVER_ERROR = 500;
 
 async function connectionStatus(req, res){
+    const currentTime = new Date();
+    const date = currentTime.toLocaleDateString('en-US', { timeZone: 'Asia/Dhaka' });
+    console.log({date})
+
     try{
         const conStatus = new ConnectionStatus({
             user: req.user.id,

@@ -168,11 +168,13 @@ async function employeeReport(req, res){
 // employee report
 async function allReport(req, res){
     try{
-       const date = new Date().toLocaleDateString();
         
-        const { remarks, district, upazila, union, user_id } = req.query; 
+        const { remarks, district, upazila, union, user_id, date } = req.query; 
 
         const filter = {}; 
+
+       
+        filter.date = date ?? new Date();
 
         if (remarks !== undefined) {
             filter.remarks = { $regex: new RegExp(remarks, 'i') };
@@ -194,7 +196,7 @@ async function allReport(req, res){
         Attendance.aggregate([
             {
                 $match: {
-                  date, 
+                  date: date, 
                   ...filter,
                 },
             },
@@ -366,8 +368,8 @@ async function employeeSingleReport(req, res) {
 async function getEmployeeMonthlyReport(req, res){
     try {
         // Parse fromDate and toDate to JavaScript Date objects
-        const fromDateObj = new Date(fromDate);
-        const toDateObj = new Date(toDate);
+        const fromDateObj = new Date("05/11/2023");
+        const toDateObj = new Date("12/11/2023");
     
         // Adjust toDate to the end of the day to include entries on that date
         toDateObj.setHours(23, 59, 59, 999);
@@ -376,10 +378,10 @@ async function getEmployeeMonthlyReport(req, res){
         const unionReport = await Attendance.aggregate([
           {
             $match: {
-              union: mongoose.Types.ObjectId(unionId),
+            //   union: mongoose.Types.ObjectId(unionId),
               date: {
-                $gte: fromDateObj.toISOString(),
-                $lte: toDateObj.toISOString(),
+                $gte: "05/11/2023",
+                $lte: "12/11/2023",
               },
             },
           },
