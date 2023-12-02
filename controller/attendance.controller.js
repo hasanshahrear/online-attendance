@@ -196,7 +196,7 @@ async function allReport(req, res){
         Attendance.aggregate([
             {
                 $match: {
-                  date: date, 
+                //   date: date, 
                   ...filter,
                 },
             },
