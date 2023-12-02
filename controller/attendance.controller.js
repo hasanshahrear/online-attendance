@@ -174,7 +174,8 @@ async function allReport(req, res){
         const filter = {}; 
 
        
-        filter.date = date ?? new Date();
+        
+        filter.date = date ? new Date(date) : new Date();
 
         if (remarks !== undefined) {
             filter.remarks = { $regex: new RegExp(remarks, 'i') };
