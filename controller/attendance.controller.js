@@ -395,8 +395,8 @@ async function getEmployeeMonthlyReport(req, res){
             {
                 $match: {
                     date: {
-                        $gte: new Date(fromDateQuery),
-                        $lte: new Date(toDateQuery),
+                        $gte: fromDateQuery,
+                        $lte: toDateQuery,
                     },
                   ...filter,
                 },
