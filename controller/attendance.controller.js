@@ -479,10 +479,10 @@ async function getEmployeeMonthlyReport(req, res){
             },
             {
                 $group: {
-                  _id: "$user._id",
+                  _id: "$user_id",
                   user: {
                     $push: {
-                      user: "$user._id",
+                      user: "$user_id",
                       data: "$data"
                     }
                   }
