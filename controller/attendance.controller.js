@@ -390,7 +390,7 @@ async function getEmployeeMonthlyReport(req, res){
             filter.user_id = mongoose.Types.ObjectId(user_id);
         }
         console.log("report filter",filter)
-        console.log("report date",date)
+        console.log("report date",fromDateQuery, toDateQuery)
         Attendance.aggregate([
             {
                 $match: {
