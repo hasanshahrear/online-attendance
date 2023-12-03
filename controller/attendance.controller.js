@@ -173,7 +173,7 @@ async function allReport(req, res){
 
         const filter = {}; 
         
-        filter.date = date ? new Date(date).toLocaleDateString('en-US', { timeZone: 'Asia/Dhaka' }) : new Date().toLocaleDateString('en-US', { timeZone: 'Asia/Dhaka' });
+        const dateQuery = date ? new Date(date).toLocaleDateString() : new Date().toLocaleDateString();
 
         if (remarks !== undefined) {
             filter.remarks = { $regex: new RegExp(remarks, 'i') };
@@ -190,12 +190,12 @@ async function allReport(req, res){
         if(user_id !== undefined) {
             filter.user_id = mongoose.Types.ObjectId(user_id);
         }
-        console.log(filter)
-        console.log(date)
+        console.log("report filter",filter)
+        console.log("report date",date)
         Attendance.aggregate([
             {
                 $match: {
-                //   date: date, 
+                  date: dateQuery, 
                   ...filter,
                 },
             },
