@@ -479,8 +479,13 @@ async function getEmployeeMonthlyReport(req, res){
             },
             {
                 $group: {
-                    _id: "$user_id",
-                    data: { $push: '$$ROOT' },
+                _id: '$_id.user',
+                users: {
+                    $push: {
+                    user: '$_id.user',
+                    unions: '$unions',
+                    },
+                },
                 },
             },
             
