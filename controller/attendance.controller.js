@@ -365,68 +365,150 @@ async function employeeSingleReport(req, res) {
 }
 
 async function getEmployeeMonthlyReport(req, res){
-    try {
-        // Parse fromDate and toDate to JavaScript Date objects
-        const fromDateObj = new Date("05/11/2023");
-        const toDateObj = new Date("12/11/2023");
-    
-        // Adjust toDate to the end of the day to include entries on that date
-        toDateObj.setHours(23, 59, 59, 999);
-    
-        // Query to find attendance records within the specified date range for all users in the union
-        const unionReport = await Attendance.aggregate([
-          {
-            $match: {
-            //   union: mongoose.Types.ObjectId(unionId),
-              date: {
-                $gte: "05/11/2023",
-                $lte: "12/11/2023",
-              },
-            },
-          },
-          {
-            $group: {
-              _id: {
-                union: '$union',
-                user: '$user_id',
-              },
-              userData: {
-                $push: {
-                  date: '$date',
-                  check_in: '$check_in',
-                  check_out: '$check_out',
-                },
-              },
-            },
-          },
-          {
-            $group: {
-              _id: '$_id.union',
-              users: {
-                $push: {
-                  user: '$_id.user',
-                  data: '$userData',
-                },
-              },
-            },
-          },
-          {
-            $project: {
-              _id: 0,
-              union: '$_id',
-              users: 1,
-            },
-          },
-        ]);
-    
+    try{
         
-        res.status(HTTP_OK).json({
-            unionReport
-        });
-      } catch (error) {
-        console.error('Error generating union report:', error);
-        throw error;
-      }
+        const { remarks, district, upazila, union, user_id, fromDate, toDate } = req.query; 
+
+        const filter = {}; 
+        
+        const fromDateQuery = fromDate ? new Date(fromDate).toLocaleDateString() : new Date().toLocaleDateString();
+        const toDateQuery = toDate ? new Date(toDate).toLocaleDateString() : new Date().toLocaleDateString();
+
+        if (remarks !== undefined) {
+            filter.remarks = { $regex: new RegExp(remarks, 'i') };
+        }
+        if(district !== undefined) {
+            filter.district = mongoose.Types.ObjectId(district);
+        }
+        if(upazila !== undefined) {
+            filter.upazila = mongoose.Types.ObjectId(upazila);
+        }
+        if(union){
+            filter.union = mongoose.Types.ObjectId(union);
+        }
+        if(user_id !== undefined) {
+            filter.user_id = mongoose.Types.ObjectId(user_id);
+        }
+        console.log("report filter",filter)
+        console.log("report date",date)
+        Attendance.aggregate([
+            {
+                $match: {
+                    date: {
+                        $gte: new Date(fromDateQuery),
+                        $lte: new Date(toDateQuery),
+                    },
+                  ...filter,
+                },
+            },
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'user_id',
+                    foreignField: '_id',
+                    as: 'user',
+                },
+            },
+            {
+                $unwind: '$user',
+            },
+            {
+                $lookup: {
+                    from: "districts",
+                    localField: 'user.district',
+                    foreignField: '_id',
+                    as: 'district',
+                },
+            },
+            {
+                $unwind: '$district',
+            },
+            {
+                $lookup: {
+                    from: "subdistricts",
+                    localField: 'user.upazila',
+                    foreignField: '_id',
+                    as: 'upazila',
+                },
+            },
+            {
+                $unwind: '$upazila',
+            },
+            {
+                $lookup: {
+                    from: "unions",
+                    localField: 'user.union',
+                    foreignField: '_id',
+                    as: 'union',
+                },
+            },
+            {
+                $unwind: '$union',
+            },
+            {
+                $lookup: {
+                    from: "designations",
+                    localField: 'user.designation',
+                    foreignField: '_id',
+                    as: 'designation',
+                },
+            },
+            {
+                $unwind: '$designation',
+            },
+            {
+              $group: {
+                _id: {
+                    upazila: "$upazila",
+                    union: "$union"
+                  },
+                data: { $push: '$$ROOT' },
+              },
+              
+            },
+            {
+                $group: {
+                  _id: "$_id.upazila",
+                  unions: {
+                    $push: {
+                      union: "$_id.union",
+                      data: "$data"
+                    }
+                  }
+                }
+            },
+            {
+                $group: {
+                    _id: "$user_id",
+                    data: { $push: '$$ROOT' },
+                },
+            },
+            
+          ]).exec(function (err, result) {
+
+            console.log({result})
+              if (err) {
+                res.status(HTTP_SERVER_ERROR).json({
+                    success: false,
+                    statusCode: 500,
+                    message: err.message
+                })
+              }
+              res.status(HTTP_OK).json({
+                success: true,
+                statusCode: 200,
+                message: "All Attendance List",
+                data: result
+            })
+            });
+
+    }catch(error){
+        res.status(HTTP_SERVER_ERROR).json({
+            success: false,
+            statusCode: HTTP_SERVER_ERROR,
+            message: error.message
+        })
+    }
 }
 
 async function getLeave(req, res) {
