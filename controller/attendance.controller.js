@@ -168,12 +168,14 @@ async function employeeReport(req, res){
 // employee report
 async function allReport(req, res){
     try{
-        
+        console.log({req})
         const { remarks, district, upazila, union, user_id, date } = req.query; 
 
         const filter = {}; 
         
         const dateQuery = date ? new Date(date).toLocaleDateString() : new Date().toLocaleDateString();
+
+        console.log({dateQuery})
 
         if (remarks !== undefined) {
             filter.remarks = { $regex: new RegExp(remarks, 'i') };
@@ -195,7 +197,7 @@ async function allReport(req, res){
         Attendance.aggregate([
             {
                 $match: {
-                  date: dateQuery, 
+                  date: date, 
                   ...filter,
                 },
             },
@@ -243,6 +245,7 @@ async function allReport(req, res){
             {
                 $unwind: '$union',
             },
+            
             {
                 $lookup: {
                     from: "designations",
@@ -275,7 +278,11 @@ async function allReport(req, res){
                   }
                 }
               },
-            
+            {
+                $sort: {
+                    "_id": 1 
+                }
+            }
           ]).exec(function (err, result) {
 
             console.log({result})
@@ -292,7 +299,7 @@ async function allReport(req, res){
                 message: "All Attendance List",
                 data: result
             })
-            });
+        });
 
     }catch(error){
         res.status(HTTP_SERVER_ERROR).json({
@@ -395,8 +402,8 @@ async function getEmployeeMonthlyReport(req, res){
             {
                 $match: {
                     date: {
-                        $gte: fromDateQuery,
-                        $lte: toDateQuery,
+                        $gte: fromDate,
+                        $lte: toDate,
                     },
                   ...filter,
                 },
@@ -477,7 +484,11 @@ async function getEmployeeMonthlyReport(req, res){
                   }
                 }
             },
-            
+            {
+                $sort: {
+                    "_id": 1 
+                }
+            }
             
           ]).exec(function (err, result) {
 
